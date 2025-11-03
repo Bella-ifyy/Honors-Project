@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+
+# Logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.*
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.turbo/
+.expo/
+coverage/
+web-build/
+
+# Desktop app build artifacts
+workout-desktop/dist/
+workout-desktop/electron-dist/
+workout-desktop/renderer/
+workout-desktop/release/
+
+# External downloads (hosted outside git)
+workout-web/public/downloads/*.dmg
+workout-web/public/downloads/*.zip
+
+# Keep desktop app resources tracked
+!workout-desktop/build/
+!workout-desktop/build/icon.icns
+!workout-desktop/build/icon-source.png
+!workout-desktop/build/trayTemplate.png
