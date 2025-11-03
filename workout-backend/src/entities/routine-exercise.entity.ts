@@ -1,0 +1,37 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity({ name: "routine_exercises" })
+export class RoutineExerciseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  routineId: number;
+
+  @Column()
+  exerciseId: number;
+
+  @Column({ nullable: true })
+  targetSets: number;
+
+  @Column({ nullable: true })
+  targetReps: number;
+
+  @Column({ nullable: true, type: "decimal", precision: 10, scale: 2 })
+  targetWeight: number;
+
+  @Column({ nullable: true })
+  targetDuration: number; // For cardio exercises
+
+  @Column({ default: 0 })
+  orderIndex: number; // Order of exercise in the routine
+
+  @Column({ nullable: true })
+  restTime: number; // Rest time between sets in seconds
+
+  @Column({ default: () => "CURRENT_TIMESTAMP" })
+  createdAt: Date;
+
+  @Column({ nullable: true })
+  updatedAt: Date;
+}
