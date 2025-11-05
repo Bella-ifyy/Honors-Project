@@ -1,0 +1,80 @@
+{
+  "build": {
+    "base": {
+      "node": "20.9.0",
+      "env": {
+        "APP_ENV": "production",
+        "NPM_CONFIG_REGISTRY": "https://registry.npmjs.org/",
+        "NPM_CONFIG_FETCH_RETRIES": "5",
+        "NPM_CONFIG_FETCH_RETRY_MINTIMEOUT": "20000",
+        "NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT": "120000",
+        "YARN_NETWORK_TIMEOUT": "300000"
+      },
+      "ios": {
+        "image": "latest",
+        "resourceClass": "m-medium",
+        "env": {
+          "PLATFORM": "ios"
+        }
+      },
+      "android": {
+        "image": "latest",
+        "env": {
+          "PLATFORM": "android"
+        }
+      },
+      "channel": "base"
+    },
+    "development": {
+      "extends": "base",
+      "channel": "development",
+      "distribution": "internal",
+      "autoIncrement": true,
+      "env": {
+        "APP_ENV": "dev"
+      },
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Debug"
+      }
+    },
+    "staging": {
+      "extends": "base",
+      "autoIncrement": true,
+      "channel": "staging",
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "stg"
+      },
+      "ios": {
+        "enterpriseProvisioning": "universal"
+      }
+    },
+    "production": {
+      "extends": "base",
+      "channel": "production",
+      "autoIncrement": true,
+      "distribution": "store",
+      "env": {
+        "APP_ENV": "prod"
+      },
+      "ios": {
+        "buildConfiguration": "Release"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "6738398869"
+      }
+    }
+  },
+  "cli": {
+    "version": ">= 7.8.0",
+    "appVersionSource": "remote"
+  }
+}

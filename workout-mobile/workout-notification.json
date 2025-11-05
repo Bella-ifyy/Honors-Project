@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "workout-app",
+  "private_key_id": "255d356abc95e5d5b8e2c88a82925bfc2b716606",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCV/Zh7tFfATWtB\n3Uz2n71qZ/W/s0Fz1s8xDAGmBU5hwkdTCKQnWrGdf6BAhfzotycsCgZnLMkUhEDn\nh0lEApfD5RGocX0jf6enjToSA+g6eTiFoglLaEzY9umC7ZPxUXFd4MyaCCdq4hlk\n0HyRr6NrjCKA/dW1RTsYjsy10UZFnSt2ixXZS1SSnz/jpFbMr6t9xQmcguXRT9c4\ndJBVb+z+WHojmjuu1o11E2TrsvpdadeHDxTGzWIY4P7aazNQc2XDF7f9DLInWhz6\nqJ1A4Le0A5CDtnKvxjJO0oI1IoFIF4SxCYQYyI9p+BgRVrE7CghZNAHI0qLBDfL2\nP0bQwyY9AgMBAAECggEABQYhW+S5WxByIHAnBPcVHfciekvToZYsiszcp0Yejylg\nleLrC1hp150v7clZzyUHXl3C7iTIDXRf74FkDlpJ4WlkUzCN9lOZzC5vp1fTKQDo\nyEJvrkNtmNzYYHwltvEOljbn6Nw6DxtIqiGjnTD1YoOnSjZ2YzkmQWx9uzSpy74V\nUoTohjpAnUUZEdQcWuyKuC43YSPrgsptec0AWqng9lbZvgJxu95RfCY+ehnsq7FR\nykT+L+6EU4mcPpq+bl09x6TrwjHfFwQ0q/634n9ChjJj1Hz9pTrdM6EjpR4GlWS8\nDhAR/N8PHbPsUufQRCsg+aSGythIwM1BaEFqAB6ZHwKBgQDOm00XaMgjYDvP4uHK\ndQzF1orKglgvFW444uUTMagkJE7rjDBTYPePBtWtaQptzUaC9qSXH8tyS+zDiowr\nOJIPcbwd4Nh85NTCoDNzrEMteRSnHeUZ6wSpjSpJ58nfrlqrgb45ykAFzXewkvbz\nBZYagwHmJLY+rFKxec/Hi45kAwKBgQC52UqBixHMPYUyv0u16crcjOX7TfM0XgJv\nciKRN8/WCw8WQY9Laf1j87SJqG9uk/zUDuBrAIJJIAOhqORzRhSYH8pYCBJk2pQB\ncjjYWWAFP/A/7Ka05FbksUpi/nPRsjrIzckKGEy2iam0OuS1XgKJ0q1w57jYL3mr\n8HRJnwzYvwKBgQDNJAZ3p+KQvYyl7XCjxXTZOxyz1pgYp/65HRC27ic1O5fg6WFS\naIVlzjN760AfpiLNBniGVVt8MUb1ISvr/k+IZjWStR4/ZDacyNRNlk1daUvIYzaH\ndYM7lp7Wov8eyc/dWwW1+8t1931QJZxt0K4pxMqt6OXLdO7mqTxVtYu8YQKBgF5n\nO+t1wwKmNWTDuyearIs/nwr6W5G8Nyx5I4n0ecRWNcGuZ6V9H1OIVaqfPotC7Oii\n7egsiAGxG2cgrXrInGlxrIzu/LjyNsBNTwbGz3mbMuSlx0CXxHPCgvCqJBbem/Go\nZniUQ1NttiBw0gA20r9Dnwp9Cm32H63xJIDJI/NtAoGBALvPvNP56Ihfw7cY7PPL\nRjiwKaN/Lc2c0k/QM1WVCWqelFxU1gZ9IZHMrzATCdqXVFsMJdFuGGKJ2x8itwsL\n7NPgfxspXDl0E/QrLzOzuMI7a0PuDhU+P81nrFdfDJTaIjDzQ8JVzZbfsbDgTLHI\nQPVRTpquDULabnCSFnds2z5L\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-mz7oj@workout-app.iam.gserviceaccount.com",
+  "client_id": "117435163703402072186",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-mz7oj%40workout-app.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

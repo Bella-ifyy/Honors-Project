@@ -1,0 +1,61 @@
+{
+  "expo": {
+    "name": "workout",
+    "slug": "workout",
+    "scheme": "workout",
+    "owner": "thankyu",
+    "privacy": "unlisted",
+    "version": "1.1.0",
+    "jsEngine": "hermes",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "orientation": "portrait",
+    "icon": "./assets/app-icons/icon-1024.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash-screen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F4F6FB"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "jsEngine": "hermes",
+      "bundleIdentifier": "com.ajibadedapo.workout",
+      "usesNonExemptEncryption": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSHealthShareUsageDescription": "workout syncs your sleep sessions with Apple Health to keep insights accurate across devices.",
+        "NSHealthUpdateUsageDescription": "workout records the sleep sessions you track so that Apple Health stays up to date."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app-icons/adaptive-foreground-432.png",
+        "backgroundColor": "#F4F6FB"
+      },
+      "package": "com.ajibadedapo.workout"
+    },
+    "web": {
+      "favicon": "./assets/images/logo-sm.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b4a8b7a6-a306-4bc8-9914-6b4b84aa218c"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b4a8b7a6-a306-4bc8-9914-6b4b84aa218c"
+    },
+    "runtimeVersion": "exposdk:51.0.0",
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
+  }
+}

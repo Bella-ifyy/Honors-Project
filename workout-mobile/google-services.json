@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286387212742",
+    "project_id": "workout-app",
+    "storage_bucket": "workout-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286387212742:android:21f91b0a688506dc9b62c7",
+        "android_client_info": {
+          "package_name": "com.ajibadedapo.workout"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMyY5Q73x__1PDSQc8LuHGUp1uQ4QuGXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

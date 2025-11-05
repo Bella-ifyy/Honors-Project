@@ -1,0 +1,89 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "RUN-DEV",
+      "dependsOn": ["root", "app:test:watch", "app:run:dev"]
+    },
+    {
+      "label": "RUN-PROD",
+      "dependsOn": ["root", "app:test:watch", "app:run:prod"]
+    },
+    {
+      "type": "process",
+      "label": "root",
+      "command": "/bin/bash",
+      "args": ["-l"],
+      "problemMatcher": [],
+      "presentation": {
+        "echo": false,
+        "focus": true,
+        "group": "build",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "app:test:watch",
+      "type": "shell",
+      "command": "npm run test:watch",
+      "options": {
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": ["-l", "-c"]
+        },
+        "env": {
+          "NVM_DIR": "${env:HOME}/.nvm"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "group": "app"
+      }
+    },
+    {
+      "label": "app:run:prod",
+      "type": "shell",
+      "command": "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\" && [ -f \"_node-version\" ] && nvm use $(cat _node-version) > /dev/null 2>&1; npm run start",
+      "options": {
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": ["-l", "-c"]
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "group": "app"
+      }
+    },
+    {
+      "label": "app:run:dev",
+      "type": "shell",
+      "command": "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\" && [ -f \"_node-version\" ] && nvm use $(cat _node-version) > /dev/null 2>&1; npm run start:dev",
+      "options": {
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": ["-l", "-c"]
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "group": "app"
+      }
+    },
+    {
+      "label": "ios",
+      "type": "shell",
+      "command": "export NVM_DIR=\"$HOME/.nvm\" && [ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\" && [ -f \"_node-version\" ] && nvm use $(cat _node-version) > /dev/null 2>&1; npm run ios",
+      "options": {
+        "shell": {
+          "executable": "/bin/zsh",
+          "args": ["-l", "-c"]
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "group": "app"
+      }
+    }
+  ]
+}
