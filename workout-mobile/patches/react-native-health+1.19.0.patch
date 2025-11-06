@@ -1,0 +1,129 @@
+diff --git a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.h b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.h
+index 8d9f8a4..e88f50d 100644
+--- a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.h
++++ b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.h
+@@ -11,5 +11,6 @@
+ @interface RCTAppleHealthKit (Methods_Sleep)
+ 
+ - (void)sleep_getSleepSamples:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
++- (void)sleep_saveSleepSample:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
+ 
+ @end
+diff --git a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.m b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.m
+index c66dc91..de56779 100644
+--- a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.m
++++ b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit+Methods_Sleep.m
+@@ -41,5 +41,60 @@ - (void)sleep_getSleepSamples:(NSDictionary *)input callback:(RCTResponseSenderB
+ 
+ }
+ 
++- (void)sleep_saveSleepSample:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
++{
++    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
++    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:nil];
++    NSString *valueString = [[RCTAppleHealthKit stringFromOptions:input key:@"value" withDefault:@"ASLEEP"] uppercaseString];
++    NSDictionary *metadata = [RCTAppleHealthKit metadataFromOptions:input withDefault:nil];
++
++    if(startDate == nil || endDate == nil){
++        callback(@[RCTMakeError(@"startDate and endDate are required in options", nil, nil)]);
++        return;
++    }
++
++    if([endDate timeIntervalSinceDate:startDate] <= 0){
++        callback(@[RCTMakeError(@"endDate must be later than startDate", nil, nil)]);
++        return;
++    }
++
++    HKCategoryType *sleepType = [HKObjectType categoryTypeForIdentifier:HKCategoryTypeIdentifierSleepAnalysis];
++    NSInteger sleepValue = HKCategoryValueSleepAnalysisAsleep;
++
++    if([valueString isEqualToString:@"INBED"]){
++        sleepValue = HKCategoryValueSleepAnalysisInBed;
++    } else if([valueString isEqualToString:@"AWAKE"]){
++        sleepValue = HKCategoryValueSleepAnalysisAwake;
++    } else if(@available(iOS 16.0, *)) {
++        if([valueString isEqualToString:@"CORE"]){
++            sleepValue = HKCategoryValueSleepAnalysisAsleepCore;
++        } else if([valueString isEqualToString:@"DEEP"]){
++            sleepValue = HKCategoryValueSleepAnalysisAsleepDeep;
++        } else if([valueString isEqualToString:@"REM"]){
++            sleepValue = HKCategoryValueSleepAnalysisAsleepREM;
++        }
++    }
++
++    HKCategorySample *sample = [HKCategorySample categorySampleWithType:sleepType
++                                                                 value:sleepValue
++                                                             startDate:startDate
++                                                               endDate:endDate
++                                                              metadata:metadata];
++
++    [self.healthStore saveObject:sample withCompletion:^(BOOL success, NSError *error) {
++        if(!success){
++            callback(@[RCTJSErrorFromNSError(error)]);
++            return;
++        }
++
++        NSDictionary *response = @{
++            @"startDate": [RCTAppleHealthKit buildISO8601StringFromDate:startDate],
++            @"endDate": [RCTAppleHealthKit buildISO8601StringFromDate:endDate],
++            @"value": valueString ?: @"ASLEEP"
++        };
++        callback(@[[NSNull null], response]);
++    }];
++}
++
+ 
+ @end
+diff --git a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit.m b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit.m
+index e8ddce1..1e1a2be 100644
+--- a/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit.m
++++ b/node_modules/react-native-health/RCTAppleHealthKit/RCTAppleHealthKit.m
+@@ -531,6 +531,12 @@ + (BOOL)requiresMainQueueSetup
+     [self sleep_getSleepSamples:input callback:callback];
+ }
+ 
++RCT_EXPORT_METHOD(saveSleepSample:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
++{
++    [self _initializeHealthStore];
++    [self sleep_saveSleepSample:input callback:callback];
++}
++
+ RCT_EXPORT_METHOD(getInfo:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+ {
+     [self _initializeHealthStore];
+diff --git a/node_modules/react-native-health/index.d.ts b/node_modules/react-native-health/index.d.ts
+index 0cf0e28..63d64fa 100644
+--- a/node_modules/react-native-health/index.d.ts
++++ b/node_modules/react-native-health/index.d.ts
+@@ -350,6 +350,11 @@ declare module 'react-native-health' {
+       callback: (err: string, results: Array<HealthValue>) => void,
+     ): void
+ 
++    saveSleepSample(
++      options: SleepSampleOptions,
++      callback: (error: string, result: SavedSleepSample) => void,
++    ): void
++
+     getInfo(
+       options: HealthUnitOptions,
+       callback: (err: string, results: HealthValue) => void,
+@@ -479,6 +484,19 @@ declare module 'react-native-health' {
+     metadata?: RecordMetadata
+   }
+ 
++  export type SleepValue = 'ASLEEP' | 'INBED' | 'AWAKE' | 'CORE' | 'DEEP' | 'REM'
++
++  export interface SleepSampleOptions {
++    startDate: string
++    endDate: string
++    value?: SleepValue
++    metadata?: RecordMetadata
++  }
++
++  export interface SavedSleepSample extends BaseValue {
++    value: SleepValue
++  }
++
+   export interface LocationValue {
+     latitude: number
+     longitude: number
