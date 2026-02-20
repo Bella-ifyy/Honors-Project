@@ -1,4 +1,9 @@
 // constants.ts
+// Simple environment configuration:
+// - Simulator: uses localhost:3014 (local backend)
+// - Physical Device: uses Vercel staging server
+// - Production Build: uses Vercel production server
+//
 import * as Device from 'expo-device';
 
 // Define the structure for environment variables
@@ -66,20 +71,16 @@ const environments: { [key: string]: Environment } = {
 };
 
 // Determine the current environment
-// This combines build type (__DEV__) with device type (Device.isDevice)
 const getEnvironment = () => {
-  // If it's a production build, always use production
+  // Production build always uses production
   if (!__DEV__) {
     return 'production';
   }
-  // If it's a development build:
-  // - Simulator: use localhost
-  // - Real device: use local network IP (for development testing)
-  if (Device.isDevice) {
-    return 'production'; // Real device in dev mode
-  }
-
-  return 'development'; // Simulator in dev mode
+  
+  // Development mode:
+  // - Simulator: use localhost (development)
+  // - Physical Device: use Vercel backend (staging)
+  return Device.isDevice ? 'staging' : 'development';
 };
 
 const currentEnv = getEnvironment();

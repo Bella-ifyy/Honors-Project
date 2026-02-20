@@ -5,11 +5,10 @@ export type CatalogTemplate = {
   focus: ("upper" | "lower" | "full" | "core" | "push" | "pull" | "glutes" | "arms" | "shoulders")[];
   equipment: ("bodyweight" | "dumbbell" | "band" | "kettlebell" | "barbell" | "cable" | "machine" | "any")[];
   goal: "strength" | "hypertrophy" | "fat-loss" | "mobility";
-  duration: number; // minutes
+  duration: number;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
 };
 
-// Mirrors backend catalog for consistent filtering and templating.
 export const workoutCatalog: CatalogTemplate[] = [
   {
     key: "home_hiit_20",

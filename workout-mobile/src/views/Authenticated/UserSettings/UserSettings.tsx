@@ -37,14 +37,12 @@ const UserSettings = ({ navigation }: StackProps<'UserSettingsStack'>) => {
   };
 
   const handleSave = async () => {
-    // Reset errors
     setError({
       email: '',
       firstName: '',
       lastName: '',
     });
 
-    // Validate fields
     let isValid = true;
     if (!validateEmail(email)) {
       setError(prevState => ({

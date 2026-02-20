@@ -11,28 +11,28 @@ export class ExerciseEntity {
   @Column({ nullable: true })
   description: string;
 
-  @Column() // 'cardio', 'strength', 'flexibility', 'sports'
+  @Column()
   type: string;
 
-  @Column({ nullable: true }) // Muscle groups targeted
+  @Column({ nullable: true })
   targetMuscles: string;
 
-  @Column({ nullable: true }) // Equipment needed (e.g., 'dumbbell', 'barbell', 'none')
+  @Column({ nullable: true })
   equipment: string;
 
-  @Column({ default: "Medium" }) // Difficulty level
+  @Column({ default: "Medium" })
   difficulty: string;
 
-  @Column({ nullable: true }) // Instructions or tips
+  @Column({ nullable: true })
   instructions: string;
 
-  @Column({ nullable: true }) // URL to demonstration video or image
+  @Column({ nullable: true })
   mediaUrl: string;
 
-  @Column({ default: true }) // Pre-defined exercises vs user-created
+  @Column({ default: true })
   isPreDefined: boolean;
 
-  @Column({ nullable: true }) // UUID of user who created custom exercise
+  @Column({ nullable: true })
   createdByUserUUID: string;
 
   @Column({ default: () => "CURRENT_TIMESTAMP" })

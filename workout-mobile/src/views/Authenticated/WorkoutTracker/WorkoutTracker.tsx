@@ -112,14 +112,11 @@ const getStatusBadgeBackground = (completed: boolean, type?: string) =>
 
 const getTemplateBadgeBackground = (type?: string) => buildAccent(type).tint;
 
-/**
- * Workout interface for fitness tracking
- */
 interface Workout {
   id: string;
   name: string;
   type: 'strength' | 'cardio' | 'flexibility' | 'sports';
-  duration: number; // in minutes
+  duration: number;
   calories: number;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   isCompleted: boolean;
@@ -150,7 +147,6 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     timeOfDay: null,
     days: [],
   });
-  // States for searching & filtering
   const [searchTerm, setSearchTerm] = useState('');
   const searchInputRef = useRef<TextInput>(null);
   const [activeCategory, setActiveCategory] = useState<
@@ -215,9 +211,6 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     }
   };
 
-  /**
-   * Fetch all workouts from API
-   */
   const normalizeListResponse = (payload: any): any[] => {
     if (Array.isArray(payload)) {
       return payload;
@@ -319,7 +312,6 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     }
   };
 
-  // Refresh whenever screen is focused
   useFocusEffect(
     useCallback(() => {
       fetchWorkouts();
@@ -328,21 +320,16 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     }, []),
   );
 
-  // Handle search when user presses "Enter"
   const handleSearchSubmit = () => {
     Keyboard.dismiss();
   };
 
-  // Pull-to-refresh logic
   const onRefresh = async () => {
     setRefreshing(true);
     await Promise.all([fetchWorkouts(), fetchTemplates(), loadReminder()]);
     setRefreshing(false);
   };
 
-  /**
-   * Combine filters: by searchTerm & selectedType
-   */
   const selectedCategory = (activeCategory ?? 'all') as 'all' | 'strength' | 'cardio' | 'flexibility' | 'sports';
 
   const filteredWorkouts = useMemo(() => {
@@ -621,7 +608,6 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     </View>
   );
 
-  // Get workout type icon
   const getWorkoutTypeIcon = (type: string): keyof typeof MaterialCommunityIcons.glyphMap => {
     switch (type) {
       case 'strength':
@@ -637,7 +623,6 @@ const WorkoutTracker = ({ navigation, route }: StackProps<'WorkoutTrackerStack'>
     }
   };
 
-  // Get difficulty color
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
     case 'beginner':
@@ -651,7 +636,6 @@ const getDifficultyColor = (difficulty: string) => {
   }
 };
 
-  // Render a single workout
   const renderWorkoutItem = useCallback(
     ({ item }: { item: WorkoutHistoryItem }) => {
       const difficultyColor = getDifficultyColor(item.difficulty || 'custom');
@@ -1061,9 +1045,6 @@ const getDifficultyColor = (difficulty: string) => {
 
 export default WorkoutTracker;
 
-/**
- * Styles
- */
 const styles = StyleSheet.create({
   container: {
     flex: 1,

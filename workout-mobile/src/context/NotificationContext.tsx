@@ -49,7 +49,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
         JSON.stringify(response, null, 2),
         JSON.stringify(response.notification.request.content.data, null, 2),
       );
-      // Handle the notification response here
     });
 
     listenersAttached.current = true;

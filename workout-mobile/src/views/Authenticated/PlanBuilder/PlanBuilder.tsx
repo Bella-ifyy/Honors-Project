@@ -44,7 +44,7 @@ const PlanBuilder = ({ navigation }: StackProps<'PlanBuilderStack'>) => {
         estimatedDuration: suggestion.duration,
         estimatedCalories: suggestion.goal === 'fat-loss' ? 300 : 200,
         isPreDefined: false,
-        exercises: [], // backend will allow empty; user can edit later
+        exercises: [],
       };
       await workoutApi.createRoutine(payload);
       toastSuccess('Plan saved', 'Find it in your workouts');

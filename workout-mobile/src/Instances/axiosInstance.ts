@@ -51,7 +51,6 @@ const applyAuthHeaders = <T extends InternalAxiosRequestConfig>(config: T, heade
 };
 
 const resolveBaseUrl = (): string => {
-  // Prefer runtime env (Metro reload) over build-time extras
   const runtime =
     process.env.EXPO_PUBLIC_API_BASE_URL ||
     process.env.EXPO_PUBLIC_API_URL;
@@ -62,7 +61,6 @@ const resolveBaseUrl = (): string => {
 
   const raw = runtime || configUrl || 'http://127.0.0.1:3014/workout/api/v1';
 
-  // Use Android emulator host for localhost
   if (Platform.OS === 'android') {
     return raw.replace('localhost', '10.0.2.2').replace('127.0.0.1', '10.0.2.2');
   }
@@ -78,7 +76,6 @@ const createAxiosInstance = async () => {
   });
 
   if (__DEV__) {
-    // eslint-disable-next-line no-console
     console.log('Axios base URL:', baseURL);
   }
 
@@ -102,7 +99,6 @@ const createAxiosInstance = async () => {
     response => response,
     error => {
       if (error.response?.status === 401) {
-        // TODO: trigger sign-out flow when auth slice is ready
       }
       return Promise.reject(error);
     },

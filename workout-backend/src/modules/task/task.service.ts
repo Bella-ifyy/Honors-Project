@@ -122,11 +122,9 @@ export class TaskService {
       task.createdVia = "api";
     }
     
-    // Set category if provided, otherwise auto-categorize
     if (payload.category) {
       task.category = payload.category;
     } else {
-      // Simple auto-categorization based on title keywords
       const title = (payload.title ?? "").toLowerCase();
       if (title.includes('work') || title.includes('meeting') || title.includes('office')) {
         task.category = 'Work';
@@ -153,7 +151,7 @@ export class TaskService {
 
   async updateTask(
     taskId: string,
-    updateTaskDto: Partial<CreateTaskDto>, // Allow partial updates
+    updateTaskDto: Partial<CreateTaskDto>,
     authUUID: string,
   ): Promise<TaskEntity> {
     try {
@@ -164,7 +162,6 @@ export class TaskService {
       const numericId = Number(taskId);
       const idCondition = Number.isFinite(numericId) ? numericId : taskId;
 
-      // Find the existing log by ID and userUUID for authorization
       const existingTask = await this.taskRepository.findOne({
         where: { id: idCondition as any },
       });
@@ -183,7 +180,6 @@ export class TaskService {
         );
       }
 
-      // Update the log properties from the DTO
       if (updateTaskDto.title !== undefined) {
         existingTask.title = updateTaskDto.title;
       }
@@ -220,7 +216,6 @@ export class TaskService {
         existingTask.isPrivate = updateTaskDto.isPrivate;
       }
 
-      // Save the updated log
       return await this.taskRepository.save(existingTask);
     } catch (error) {
       if (error instanceof HttpException) {
@@ -292,7 +287,6 @@ export class TaskService {
       const completedTasks = tasks.filter(task => task.isCompleted).length;
       const progress = tasks.length > 0 ? completedTasks / tasks.length : 0;
 
-      // Return a single "default" project with all tasks
       return [{
         id: "default",
         name: "My Tasks",
@@ -386,7 +380,6 @@ export class TaskService {
     try {
       const userUUID = this.normalizeAuthUUID(authUUID);
 
-      // Get all completed tasks for the user
       const completedTasks = await this.taskRepository.find({
         where: {
           userUUID,
@@ -399,7 +392,6 @@ export class TaskService {
         return 0;
       }
 
-      // Group completed tasks by date
       const tasksByDate = new Map<string, any[]>();
       
       completedTasks.forEach(task => {
@@ -412,33 +404,27 @@ export class TaskService {
         }
       });
 
-      // Calculate consecutive days
       let streak = 0;
       const today = new Date();
       const dates = Array.from(tasksByDate.keys()).sort((a, b) => 
         new Date(b).getTime() - new Date(a).getTime()
       );
 
-      // Check if user completed tasks today
       const todayKey = today.toDateString();
       let currentDate = today;
 
-      // If no tasks completed today, start from yesterday
       if (!tasksByDate.has(todayKey)) {
         currentDate = new Date(today);
         currentDate.setDate(currentDate.getDate() - 1);
       }
 
-      // Count consecutive days backwards
       while (true) {
         const dateKey = currentDate.toDateString();
         
         if (tasksByDate.has(dateKey)) {
           streak++;
-          // Move to previous day
           currentDate.setDate(currentDate.getDate() - 1);
         } else {
-          // No tasks completed on this day, streak ends
           break;
         }
       }
@@ -645,21 +631,18 @@ export class TaskService {
   async dashboardMetrics(authUUID: string): Promise<any> {
     const userUUID = this.normalizeAuthUUID(authUUID);
 
-    // Get today's start and end date boundaries
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
 
     const endOfDay = new Date();
     endOfDay.setHours(23, 59, 59, 999);
 
-    // Fetch tasks for the user
     const tasks = await this.taskRepository.find({
       where: {
         userUUID,
       },
     });
 
-    // Filter tasks due today
     const dueToday = tasks.filter(
       (task) =>
         task.dueDate &&
@@ -667,7 +650,6 @@ export class TaskService {
         new Date(task.dueDate) <= endOfDay,
     );
 
-    // Calculate true streak
     const streak = await this.calculateStreak(userUUID);
 
     return {
@@ -697,17 +679,17 @@ export class TaskService {
     const data = [
       {
         value: inProgressTasks,
-        svg: { fill: "#8665F4" }, // Progress color
+        svg: { fill: "#8665F4" },
         label: "Progress",
       },
       {
         value: completedTasks,
-        svg: { fill: "#4CAF50" }, // Complete color
+        svg: { fill: "#4CAF50" },
         label: "Complete",
       },
       {
         value: totalTasks,
-        svg: { fill: "#FBC02D" }, // Total color
+        svg: { fill: "#FBC02D" },
         label: "Total",
       },
     ];
@@ -740,9 +722,7 @@ export class TaskService {
           );
           return { ...task, deadlineScore: Math.round(score) };
         })
-        // Sort tasks by the deadline score in descending order (closest deadlines come first)
         .sort((a, b) => b.deadlineScore - a.deadlineScore)
-        // Optionally, limit the results to the top N closest tasks (e.g., 5 tasks)
         .slice(0, 5)
     );
   }
@@ -1045,11 +1025,9 @@ export class TaskService {
     const taskRepository = getRepository(TaskEntity);
     const currentTime = new Date();
 
-    // Get today's date at the start of the day (00:00:00)
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);
 
-    // Query tasks where dueDate is between todayStart and currentTime and reminderSent is false
     const tasksDueToday = await taskRepository
       .createQueryBuilder("task")
       .where("task.dueDate BETWEEN :todayStart AND :currentTime", {
@@ -1059,14 +1037,12 @@ export class TaskService {
       .andWhere("task.reminderSent = :reminderSent", { reminderSent: false })
       .getMany();
 
-    // Send notifications and update the reminderSent flag
     for (const task of tasksDueToday) {
       const user = await this.userRepository.findOne({
         where: { uuid: task.userUUID },
       });
 
       if (user) {
-        // Check notification preferences
         const shouldSendPush =
           await this.notificationPreference.shouldSendPushNotification(
             task.userUUID,
@@ -1076,7 +1052,6 @@ export class TaskService {
             task.userUUID,
           );
 
-        // Send push notification
         if (shouldSendPush) {
           await this.pushNotification.sendNotification(
             "system",
@@ -1093,7 +1068,6 @@ export class TaskService {
           );
         }
 
-        // Send email notification
         if (shouldSendEmail) {
           await this.emailNotification.sendTaskReminderEmail(
             user.email,
@@ -1104,7 +1078,6 @@ export class TaskService {
         }
       }
 
-      // Mark the reminder as sent
       task.reminderSent = true;
       await taskRepository.save(task);
     }
@@ -1112,7 +1085,6 @@ export class TaskService {
     return tasksDueToday;
   }
 
-  // Delete a task
   async deleteTask(
     taskId: string,
     authUUID: string,
@@ -1141,7 +1113,6 @@ export class TaskService {
     return { message: "Task deleted successfully" };
   }
 
-  // Delete all tasks for a user
   async deleteUserTasks(userUUID: string): Promise<void> {
     try {
       await this.taskRepository.delete({ userUUID });

@@ -44,5 +44,4 @@ export const toastWarning = (title: string, message?: string) =>
   showToast(title, { message, preset: 'custom', haptic: 'warning' });
 
 export const dismissAllToasts = () => {
-  // react-native-root-toast does not expose a global hide-all; this is a noop for API parity
 };

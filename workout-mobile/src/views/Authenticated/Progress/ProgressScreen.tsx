@@ -81,11 +81,9 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
 
   const fetchProgressData = async () => {
     try {
-      // Fetch progress metrics from API
       const metrics = await workoutApi.getProgressMetrics();
       const summary = await workoutApi.getDashboardSummary();
 
-      // Update progress data
       setProgressData({
         totalWorkouts: summary.totalWorkouts || 0,
         totalCalories: summary.totalCaloriesBurned || 0,
@@ -97,7 +95,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
         improvementAreas: summary.improvementAreas || [],
       });
 
-      // Update weekly and monthly stats if available
       if (metrics.weeklyData) {
         setWeeklyProgress(metrics.weeklyData);
       }
@@ -141,13 +138,11 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           />
         }
       >
-        {/* Header */}
-        <View style={styles.header}>
+      <View style={styles.header}>
           <Text style={styles.headerTitle}>Your Progress</Text>
           <Text style={styles.headerSubtitle}>Track your fitness journey</Text>
         </View>
 
-        {/* Overview Cards */}
         <View style={styles.overviewContainer}>
           <View style={styles.overviewCard}>
             <LinearGradient
@@ -186,7 +181,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Weekly Progress */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>This Week</Text>
           <View style={styles.weeklyContainer}>
@@ -211,7 +205,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Streak Information */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Streak</Text>
           <View style={styles.streakContainer}>
@@ -240,7 +233,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Monthly Progress Chart */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Monthly Progress</Text>
           <View style={styles.chartContainer}>
@@ -264,7 +256,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Goals Progress */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Weekly Goal</Text>
           <View style={styles.goalContainer}>
@@ -288,7 +279,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Achievements */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Achievements</Text>
           <View style={styles.achievementsContainer}>
@@ -313,7 +303,6 @@ const ProgressScreen = ({ navigation, route }: StackProps<'ProgressStack'>) => {
           </View>
         </View>
 
-        {/* Improvement Areas */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Focus Areas</Text>
           <View style={styles.improvementContainer}>
@@ -460,22 +449,26 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: palette.border,
-    paddingVertical: 20,
+    paddingVertical: 16,
     paddingHorizontal: 16,
   },
   chart: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    height: 120,
     gap: 12,
   },
   chartBar: {
     alignItems: 'center',
     flex: 1,
+    height: '100%',
+    justifyContent: 'flex-end',
   },
   chartBarFill: {
     width: 18,
     borderRadius: 10,
+    minHeight: 20,
   },
   chartLabel: {
     marginTop: 8,

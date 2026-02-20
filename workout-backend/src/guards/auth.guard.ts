@@ -43,7 +43,6 @@ export class AuthGuard implements CanActivate {
           }
         }
       } catch (_error) {
-        // Ignore verification errors and fall back to UUID lookup.
       }
     }
 

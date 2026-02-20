@@ -438,7 +438,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={palette.background} translucent={false} />
 
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={palette.textPrimary} />
@@ -454,7 +453,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Template Name */}
         <View style={styles.section}>
           <Text style={styles.label}>Template Name *</Text>
           <TextInput
@@ -466,7 +464,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
           />
         </View>
 
-        {/* Duration & Calories */}
         <View style={styles.rowSection}>
           <View style={[styles.section, { flex: 1, marginRight: 8 }]}>
             <Text style={styles.label}>Duration (min)</Text>
@@ -492,7 +489,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
           </View>
         </View>
 
-        {/* Notes */}
         <View style={styles.section}>
           <Text style={styles.label}>Notes</Text>
           <TextInput
@@ -506,7 +502,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
           />
         </View>
 
-        {/* Exercises */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.label}>Exercises *</Text>
@@ -575,7 +570,6 @@ const CreateWorkout = ({ navigation, route }: StackProps<'CreateWorkoutStack'>) 
         </View>
       </ScrollView>
 
-      {/* Exercise Picker Modal */}
       {showExercisePicker && (
         <View style={styles.modal}>
           <View style={styles.modalContent}>

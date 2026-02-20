@@ -21,13 +21,13 @@ export class RoutineExerciseEntity {
   targetWeight: number;
 
   @Column({ nullable: true })
-  targetDuration: number; // For cardio exercises
+  targetDuration: number;
 
   @Column({ default: 0 })
-  orderIndex: number; // Order of exercise in the routine
+  orderIndex: number;
 
   @Column({ nullable: true })
-  restTime: number; // Rest time between sets in seconds
+  restTime: number;
 
   @Column({ default: () => "CURRENT_TIMESTAMP" })
   createdAt: Date;

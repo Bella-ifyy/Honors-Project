@@ -217,12 +217,10 @@ export default function Welcome({ navigation }: StackProps<'WelcomeStack'>) {
   };
 
   const handleTermsPress = () => {
-    // Navigate to terms screen or open terms URL
     Alert.alert('Terms of Service', 'Terms of Service content would be displayed here.');
   };
 
   const handlePrivacyPress = () => {
-    // Navigate to privacy screen or open privacy URL
     Alert.alert('Privacy Policy', 'Privacy Policy content would be displayed here.');
   };
 

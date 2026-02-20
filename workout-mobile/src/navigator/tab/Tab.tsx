@@ -7,12 +7,14 @@ import { StackParamList } from '@navigator/stack';
 import { WorkoutStackNavigator, ProgressStackNavigator, ProfileStackNavigator } from '../stack/Stack';
 import Welcome from '@views/Onboarding/Welcome';
 import CreateAccount from '@views/Onboarding/CreateAccount';
+import WorkoutProfileOnboarding from '@views/Onboarding/WorkoutProfile/WorkoutProfile';
 import Login from '@views/Login/Login';
 import { useAppSlice } from '@modules/app';
 import { colors } from '@theme';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const AuthStack = createNativeStackNavigator<StackParamList>();
+const OnboardingStack = createNativeStackNavigator<StackParamList>();
 
 const tabIconMap: Record<keyof TabParamList, keyof typeof Ionicons.glyphMap> = {
   WorkoutsTab: 'barbell-outline',
@@ -21,9 +23,14 @@ const tabIconMap: Record<keyof TabParamList, keyof typeof Ionicons.glyphMap> = {
 };
 
 export function Navigator() {
-  const { loggedIn } = useAppSlice();
+  const { loggedIn, user } = useAppSlice();
+  const needsOnboarding = loggedIn && user?.workoutOnboardingCompleted !== true;
 
-  return loggedIn ? (
+  return needsOnboarding ? (
+    <OnboardingStack.Navigator screenOptions={{ headerShown: false }}>
+      <OnboardingStack.Screen component={WorkoutProfileOnboarding} name="WorkoutOnboardingStack" />
+    </OnboardingStack.Navigator>
+  ) : loggedIn ? (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,

@@ -1,5 +1,3 @@
-// Ensure path aliases like `@app/*` are resolved before importing modules
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias/register");
 
 import { NestFactory } from "@nestjs/core";
@@ -7,7 +5,6 @@ import { AppModule } from "./app.module";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const bodyParser = require("body-parser");
 
 async function bootstrap() {
@@ -20,7 +17,6 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: "150mb" }));
   app.use(bodyParser.urlencoded({ limit: "150mb", extended: true }));
 
-  // Logging Middleware
   app.use((req, res, next) => {
     const startTime = Date.now();
     const { method, url, headers, body } = req;
@@ -37,7 +33,6 @@ async function bootstrap() {
       clientInfo,
     });
 
-    // Hook into the response finish event
     res.on("finish", () => {
       const duration = Date.now() - startTime;
       console.log("Outgoing Response:", {

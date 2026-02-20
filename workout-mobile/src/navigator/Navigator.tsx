@@ -14,7 +14,6 @@ function Navigator() {
       dispatch(setUser(user));
       dispatch(setLoggedIn(!!user));
     } catch {
-      // Ignore missing stored user credentials
     }
 
   };

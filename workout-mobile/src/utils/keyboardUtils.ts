@@ -1,24 +1,19 @@
 import { Platform } from 'react-native';
 
 export const KEYBOARD_CONFIG = {
-  // KeyboardAvoidingView behavior
   behavior: Platform.OS === 'ios' ? 'padding' : 'height' as const,
-  
-  // Keyboard vertical offset
+
   keyboardVerticalOffset: Platform.OS === 'ios' ? 0 : 20,
-  
-  // ScrollView keyboard handling
+
   keyboardShouldPersistTaps: 'handled' as const,
   keyboardDismissMode: 'interactive' as const,
-  
-  // TextInput configurations
+
   textInputConfig: {
     autoCorrect: false,
     blurOnSubmit: false,
     returnKeyType: 'next' as const,
   },
-  
-  // Platform-specific configurations
+
   platform: {
     ios: {
       behavior: 'padding' as const,

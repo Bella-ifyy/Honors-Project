@@ -194,10 +194,8 @@ export default function CreateAccount({ navigation }: StackProps<'CreateAccountS
     const getDeviceId = async () => {
       try {
         const id = Device.osInternalBuildId ?? Device.osBuildId ?? Device.deviceName;
-        // Store device ID silently without showing errors to user
         console.log('Device ID:', id);
       } catch (error: any) {
-        // Silently handle device ID errors without showing to user
         console.log('Device ID error:', error?.message);
       }
     };

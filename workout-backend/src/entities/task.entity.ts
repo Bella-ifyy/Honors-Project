@@ -18,7 +18,7 @@ export class TaskEntity {
   priority: string;
 
   @Column({ nullable: true })
-  category: string; // e.g., 'Work', 'Personal', 'Health', 'Learning'
+  category: string;
 
   @Column({ default: false })
   isCompleted: boolean;
@@ -33,7 +33,7 @@ export class TaskEntity {
   isPrivate: boolean;
 
   @Column({ nullable: true })
-  recurringPattern: string; // 'daily', 'weekly', 'monthly'
+  recurringPattern: string;
 
   @Column({ nullable: true })
   recurringEndDate: Date;

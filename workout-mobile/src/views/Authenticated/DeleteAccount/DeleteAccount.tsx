@@ -29,13 +29,11 @@ const DeleteAccount = ({ navigation }: StackProps<'DeleteAccountStack'>) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteAccount = async () => {
-    // Reset errors
     setError({
       password: '',
       confirmText: '',
     });
 
-    // Validate fields
     let isValid = true;
     if (!password.trim()) {
       setError(prevState => ({
@@ -55,7 +53,6 @@ const DeleteAccount = ({ navigation }: StackProps<'DeleteAccountStack'>) => {
 
     if (!isValid) return;
 
-    // Show final confirmation dialog
     Alert.alert(
       'Delete Account?',
       'This action is permanent and cannot be undone. All your data will be deleted immediately.',
@@ -78,7 +75,6 @@ const DeleteAccount = ({ navigation }: StackProps<'DeleteAccountStack'>) => {
               if ([200, 201, 204].includes(response.status)) {
                 toastSuccess('Account deleted successfully');
 
-                // Clear local data and logout
                 await clearAuthData();
                 dispatch(setLoggedIn(false));
                 navigation.navigate('LoginStack', { from: 'DeleteAccount' });
@@ -104,7 +100,6 @@ const DeleteAccount = ({ navigation }: StackProps<'DeleteAccountStack'>) => {
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} translucent={false} />
       <Header2 title="Delete Account" onBackPress={() => navigation.goBack()} />
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Warning Section */}
         <View style={styles.warningContainer}>
           <Ionicons name="warning" size={48} color="#ff3b30" />
           <Text style={styles.warningTitle}>Permanent Account Deletion</Text>
@@ -119,7 +114,6 @@ const DeleteAccount = ({ navigation }: StackProps<'DeleteAccountStack'>) => {
           </View>
         </View>
 
-        {/* Confirmation Form */}
         <View style={styles.form}>
           <Text style={styles.label}>Enter your password to confirm</Text>
           <TextInput

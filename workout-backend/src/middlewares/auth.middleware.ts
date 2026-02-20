@@ -29,7 +29,6 @@ export class AuthMiddleware implements NestMiddleware {
         }
       }
 
-      // Fall back to treating the header as a UUID if JWT validation fails
       if (!user) {
         const possibleUUID = authorization.replace(/^Bearer\s+/i, "");
         user = await this.authService.findByUUID(possibleUUID);

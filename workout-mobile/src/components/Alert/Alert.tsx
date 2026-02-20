@@ -4,7 +4,6 @@ type AlertType = 'error' | 'danger' | 'success' | 'info' | string;
 
 class Alert {
   static alert(title: AlertType, message?: string) {
-    // Convert title to string if it's an object (like Error)
     const titleString = typeof title === 'string' ? title : String(title);
     const messageString = typeof message === 'string' ? message : (message ? String(message) : undefined);
 

@@ -24,7 +24,7 @@ export class NotificationPreferenceEntity {
   taskReminderPush: boolean;
 
   @Column({ default: 60 })
-  reminderMinutesBefore: number; // How many minutes before due date to send reminder
+  reminderMinutesBefore: number;
 
   @Column({ default: true })
   dailyDigest: boolean;

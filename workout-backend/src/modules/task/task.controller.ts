@@ -25,7 +25,7 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post("create")
-  @UseGuards(AuthGuard) // Assuming you have an AuthGurd to protect this endpoint
+  @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ transform: true }))
   async createTask(
     @Body() createTaskDto: CreateTaskDto,
@@ -39,12 +39,12 @@ export class TaskController {
     return await this.taskService.createTask(createTaskDto, userUUID);
   }
 
-  @Put(":id") // Change 2 PUT 4 updates
+  @Put(":id")
   @UseGuards(AuthGuard)
   @UsePipes(new ValidationPipe({ transform: true }))
   async updateTask(
-    @Param("id") taskId: string, // Extract task ID from the route
-    @Body() updateTaskDto: any, // Assume partial update DTO
+    @Param("id") taskId: string,
+    @Body() updateTaskDto: any,
     @Headers("authorization") authHeader: string,
     @Req() req: ExpressRequest,
   ): Promise<TaskEntity> {

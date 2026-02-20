@@ -103,7 +103,6 @@ async function seedTaskTemplates() {
 
     const taskRepository = connection.getRepository(TaskEntity);
 
-    // Check if templates already exist
     const existingTemplates = await taskRepository.find({
       where: { userUUID: SYSTEM_TEMPLATE_UUID },
     });
@@ -146,4 +145,3 @@ async function seedTaskTemplates() {
 }
 
 seedTaskTemplates();
-

@@ -72,7 +72,7 @@ const ExerciseLibrary = ({ navigation }: StackProps<'ExerciseLibraryStack'>) => 
       const nameMatch = !term || ex.name.toLowerCase().includes(term);
       const equip = (ex.equipment || 'all').toLowerCase();
       const goal = (ex.targetMuscles || '').toLowerCase();
-      const diff = 'intermediate'; // default
+      const diff = 'intermediate';
       const eqOk = equipmentFilter === 'all' || equip.includes(equipmentFilter);
       const goalOk = goalFilter === 'all' || goal.includes(goalFilter);
       const diffOk = difficultyFilter === 'all' || diff.includes(difficultyFilter);

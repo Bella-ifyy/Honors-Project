@@ -77,7 +77,6 @@ export class NoteService {
     return normalized.length ? normalized : null;
   }
 
-  // Create a new note
   async createNote(
     createNoteDto: any,
     authHeader: string,
@@ -85,10 +84,8 @@ export class NoteService {
     const { title, content, taskId } = createNoteDto;
     const safeContent = this.sanitizeContent(content);
 
-    // Create a new note entity object
     const note = new NoteEntity();
 
-    // Use Object.assign to assign the properties
     Object.assign(note, {
       title,
       content: safeContent,
@@ -114,11 +111,9 @@ export class NoteService {
       note.taskId = task?.id ?? null;
     }
 
-    // Save the note to the database
     return await this.noteRepository.save(note);
   }
 
-  // List all notes for user
   async listNotesByUser(userUUID: string): Promise<NoteEntity[]> {
     const delegateLinks = await this.delegateRepository.find({
       where: { delegateUUID: userUUID },
@@ -140,7 +135,6 @@ export class NoteService {
     return this.attachOwnerInfo(notes);
   }
 
-  // Get a note by its ID
   async getNoteById(id: number): Promise<NoteEntity> {
     const note = await this.noteRepository.findOne(id);
     if (!note) {
@@ -177,7 +171,6 @@ export class NoteService {
     return task;
   }
 
-  // Update a note by its ID
   async updateNoteById(
     id: number,
     updateNoteDto: any,
@@ -223,12 +216,11 @@ export class NoteService {
       }
     }
 
-    note.updatedAt = new Date(); // Update the last modified timestamp
+    note.updatedAt = new Date();
 
     return await this.noteRepository.save(note);
   }
 
-  // Delete a note by its ID
   async deleteNoteById(
     id: number,
     authHeader: string,
@@ -249,7 +241,6 @@ export class NoteService {
     return { message: "Note deleted successfully" };
   }
 
-  // Search notes by title or content
   async searchNotes(
     searchQuery: string,
     authHeader: string,
@@ -280,7 +271,6 @@ export class NoteService {
       .then(notes => this.attachOwnerInfo(notes));
   }
 
-  // Get notes by category
   async getNotesByCategory(
     category: string,
     authHeader: string,
@@ -291,7 +281,6 @@ export class NoteService {
     });
   }
 
-  // Get favorite notes
   async getFavoriteNotes(authHeader: string): Promise<NoteEntity[]> {
     return await this.noteRepository.find({
       where: { userUUID: authHeader, isFavorite: true },
@@ -299,7 +288,6 @@ export class NoteService {
     });
   }
 
-  // Toggle favorite status
   async toggleFavorite(id: number, authHeader: string): Promise<NoteEntity> {
     const note = await this.noteRepository.findOne({
       where: { id, userUUID: authHeader },
@@ -314,7 +302,6 @@ export class NoteService {
     return await this.noteRepository.save(note);
   }
 
-  // Delete all notes for a user
   async deleteUserNotes(userUUID: string): Promise<void> {
     try {
       await this.noteRepository.delete({ userUUID });

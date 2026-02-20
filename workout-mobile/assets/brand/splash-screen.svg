@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1242" height="2688" viewBox="0 0 1242 2688" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Dark gradient background -->
-  <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0A0A0A;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#1a1a1a;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#0A0A0A;stop-opacity:1" />
-    </linearGradient>
-    <radialGradient id="orangeGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#F96418;stop-opacity:0.3" />
-      <stop offset="100%" style="stop-color:#F96418;stop-opacity:0" />
-    </radialGradient>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="1242" height="2688" fill="url(#bgGradient)"/>
-  
-  <!-- Subtle orange glow orb top right -->
-  <circle cx="1000" cy="300" r="400" fill="url(#orangeGlow)" opacity="0.6"/>
-  
-  <!-- Subtle purple glow orb bottom left -->
-  <circle cx="200" cy="2400" r="350" fill="#231d54" opacity="0.2"/>
-  
-  <!-- Main logo circle centered -->
-  <circle cx="621" cy="1344" r="220" fill="#F96418"/>
+<svg width="3881" height="8400" viewBox="0 0 3881 8400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="3881" height="8400" fill="#F4F6FB" />
+  <g transform="translate(1400 3660) scale(1.055)">
+    <g fill="#1F7BFF">
+      <rect x="120" y="360" width="80" height="304" rx="20" />
+      <rect x="200" y="400" width="40" height="224" rx="12" />
+      <rect x="250" y="476" width="524" height="72" rx="36" />
+      <rect x="784" y="400" width="40" height="224" rx="12" />
+      <rect x="824" y="360" width="80" height="304" rx="20" />
+    </g>
+  </g>
 </svg>
-

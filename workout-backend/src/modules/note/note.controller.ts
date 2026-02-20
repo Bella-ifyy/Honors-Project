@@ -33,7 +33,6 @@ export class NoteController {
     return await this.noteService.createNote(createNoteDto, userUUID);
   }
 
-  // List all notes with optional search functionality
   @Get("/")
   @UseGuards(AuthGuard)
   async listNotes(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
@@ -41,7 +40,6 @@ export class NoteController {
     return await this.noteService.listNotesByUser(userUUID);
   }
 
-  // Fetch a single note by its ID
   @Get("/:id")
   @UseGuards(AuthGuard)
   async getNote(
@@ -53,7 +51,6 @@ export class NoteController {
     return await this.noteService.getNoteByIdForUser(id, userUUID);
   }
 
-  // Update a note's details by its ID
   @Put("/:id")
   @UseGuards(AuthGuard)
   async updateNote(
@@ -66,7 +63,6 @@ export class NoteController {
     return await this.noteService.updateNoteById(id, updateNoteDto, userUUID);
   }
 
-  // Update a note's details by its ID (alternative route for frontend compatibility)
   @Put("/update/:id")
   @UseGuards(AuthGuard)
   async updateNoteByUpdateRoute(
@@ -79,7 +75,6 @@ export class NoteController {
     return await this.noteService.updateNoteById(id, updateNoteDto, userUUID);
   }
 
-  // Delete a note by its ID
   @Delete("/:id")
   @UseGuards(AuthGuard)
   async deleteNote(
@@ -91,7 +86,6 @@ export class NoteController {
     return await this.noteService.deleteNoteById(id, userUUID);
   }
 
-  // Search notes by title or content
   @Get("/search/query")
   async searchNotes(
     @Query("q") searchQuery: string,
@@ -100,7 +94,6 @@ export class NoteController {
     return await this.noteService.searchNotes(searchQuery, authHeader);
   }
 
-  // Get notes by category
   @Get("/category/:category")
   async getNotesByCategory(
     @Param("category") category: string,
@@ -109,13 +102,11 @@ export class NoteController {
     return await this.noteService.getNotesByCategory(category, authHeader);
   }
 
-  // Get favorite notes
   @Get("/favorites/list")
   async getFavoriteNotes(@Headers("authorization") authHeader: string) {
     return await this.noteService.getFavoriteNotes(authHeader);
   }
 
-  // Toggle favorite status
   @Put("/:id/favorite")
   async toggleFavorite(
     @Param("id") id: number,

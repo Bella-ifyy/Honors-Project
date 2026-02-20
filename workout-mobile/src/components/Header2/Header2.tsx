@@ -4,11 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 import TyText from '@components/TyText/TyText';
 import { colors } from '@theme';
 
-// Define the prop types for the Header component
 interface HeaderProps {
   title: string;
   onBackPress: () => void;
-  onMorePress?: () => void; // Optional if there is no handler needed for "more" icon
+  onMorePress?: () => void;
 }
 
 const Header2: React.FC<HeaderProps> = ({ title, onBackPress, onMorePress }) => {

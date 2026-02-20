@@ -55,7 +55,6 @@ export type RoutineTemplate = {
 };
 
 export const workoutApi = {
-  // ========== WORKOUT ENDPOINTS ==========
   async createWorkout(workoutData: any) {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -101,7 +100,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== EXERCISE ENDPOINTS ==========
   async createExercise(exerciseData: any) {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -137,7 +135,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== ROUTINE ENDPOINTS ==========
   async createRoutine(routineData: any) {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -183,7 +180,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== PROGRESS ENDPOINTS ==========
   async createProgress(progressData: any) {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -211,7 +207,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== DASHBOARD ENDPOINTS ==========
   async getDashboardSummary() {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -230,7 +225,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== WORKOUT TEMPLATES ==========
   async getWorkoutTemplates() {
     const axiosInstance = await createAxiosInstance();
     const response = await axiosInstance.get('/public/workout/templates');
@@ -255,7 +249,6 @@ export const workoutApi = {
     return response.data;
   },
 
-  // ========== REMINDER ==========
   async getReminder() {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
@@ -267,6 +260,20 @@ export const workoutApi = {
     const axiosInstance = await createAxiosInstance();
     const headers = await buildAuthHeaders();
     const response = await axiosInstance.put('/workout/reminder', payload, { headers });
+    return response.data;
+  },
+
+  async getWorkoutProfile() {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.get('/workout/profile', { headers });
+    return response.data;
+  },
+
+  async saveWorkoutProfile(payload: any) {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.put('/workout/profile', payload, { headers });
     return response.data;
   },
 };

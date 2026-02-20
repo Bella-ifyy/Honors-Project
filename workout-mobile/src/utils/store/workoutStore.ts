@@ -1,13 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Storage keys
 const WORKOUTS_KEY = '@workouts';
 const PENDING_SYNC_KEY = '@pending_sync';
 const EXERCISES_KEY = '@exercises_cache';
 const ROUTINES_KEY = '@routines';
 const PROGRESS_KEY = '@progress';
-
-// ========== WORKOUT STORAGE ==========
 
 export const saveWorkoutsLocally = async (workouts: any[]): Promise<void> => {
   try {
@@ -30,7 +27,7 @@ export const getWorkoutsLocally = async (): Promise<any[] | null> => {
 export const addWorkoutLocally = async (workout: any): Promise<void> => {
   try {
     const workouts = await getWorkoutsLocally() || [];
-    workouts.unshift(workout); // Add to beginning
+    workouts.unshift(workout);
     await saveWorkoutsLocally(workouts);
   } catch (error) {
     console.error('Error adding workout locally:', error);
@@ -59,8 +56,6 @@ export const deleteWorkoutLocally = async (workoutId: number | string): Promise<
     console.error('Error deleting workout locally:', error);
   }
 };
-
-// ========== OFFLINE SYNC QUEUE ==========
 
 export interface PendingAction {
   id: string;
@@ -113,8 +108,6 @@ export const clearPendingSync = async (): Promise<void> => {
   }
 };
 
-// ========== EXERCISE CACHE ==========
-
 export const cacheExercises = async (exercises: any[]): Promise<void> => {
   try {
     await AsyncStorage.setItem(EXERCISES_KEY, JSON.stringify({
@@ -132,7 +125,6 @@ export const getCachedExercises = async (): Promise<any[] | null> => {
     if (!data) return null;
 
     const { data: exercises, timestamp } = JSON.parse(data);
-    // Cache expires after 24 hours
     const isExpired = Date.now() - timestamp > 24 * 60 * 60 * 1000;
 
     return isExpired ? null : exercises;
@@ -141,8 +133,6 @@ export const getCachedExercises = async (): Promise<any[] | null> => {
     return null;
   }
 };
-
-// ========== ROUTINE STORAGE ==========
 
 export const saveRoutinesLocally = async (routines: any[]): Promise<void> => {
   try {
@@ -162,8 +152,6 @@ export const getRoutinesLocally = async (): Promise<any[] | null> => {
   }
 };
 
-// ========== PROGRESS STORAGE ==========
-
 export const saveProgressLocally = async (progressEntries: any[]): Promise<void> => {
   try {
     await AsyncStorage.setItem(PROGRESS_KEY, JSON.stringify(progressEntries));
@@ -181,8 +169,6 @@ export const getProgressLocally = async (): Promise<any[] | null> => {
     return null;
   }
 };
-
-// ========== UTILITY FUNCTIONS ==========
 
 export const clearAllWorkoutData = async (): Promise<void> => {
   try {

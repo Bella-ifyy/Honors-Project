@@ -46,7 +46,6 @@ const BottomSheet = memo(function ({ isOpen, initialOpen, children, ...others }:
         }
       } catch {
         setUserExists(true);
-        //  await AsyncStorage.removeItem('@auth');
       }
     };
 

@@ -7,7 +7,6 @@ export const fonts = {
   },
 };
 
-// Preload fonts
 export const loadFonts = () =>
   loadAsync({
     Inter_regular: require('@assets/fonts/inter/Inter-Regular.otf'),

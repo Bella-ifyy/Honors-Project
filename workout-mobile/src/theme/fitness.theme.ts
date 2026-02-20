@@ -1,26 +1,18 @@
-// FitTracker - Custom Fitness Theme Design System
-// Modern, energetic, and motivational color palette
-
 import { colors as appColors } from './colors';
 
 export const fitnessTheme = {
-  // Primary Brand Colors
   colors: {
-    // Main brand colors - energetic but bright/premium
     primary: appColors.primaryPurple,
     primaryDark: '#5332D4',
     primaryLight: '#B7A4FF',
 
-    // Accent colors for CTAs and highlights
     accent: appColors.primaryBlue,
     accentDark: '#0F5AD7',
     accentLight: '#9ED0FF',
 
-    // Warning & Energy
     warning: '#FFB545',
     energy: '#FF7D95',
 
-    // Background colors - airy, light surfaces for new system
     background: {
       primary: appColors.background,
       secondary: appColors.surface,
@@ -28,7 +20,6 @@ export const fitnessTheme = {
       elevated: appColors.surface,
     },
 
-    // Text colors
     text: {
       primary: appColors.textPrimary,
       secondary: appColors.textSecondary,
@@ -36,7 +27,6 @@ export const fitnessTheme = {
       disabled: '#B3BED4',
     },
 
-    // Workout type colors
     workout: {
       cardio: {
         primary: '#FF6B9A',
@@ -60,31 +50,25 @@ export const fitnessTheme = {
       },
     },
 
-    // UI element colors
     border: appColors.border,
     borderLight: appColors.surfaceMuted,
     divider: 'rgba(15, 23, 42, 0.06)',
 
-    // Semantic colors
     success: '#24C08B',
     error: '#FF6B6B',
     info: appColors.primaryBlue,
 
-    // Overlay colors
     overlay: 'rgba(15, 15, 25, 0.85)',
     overlayLight: 'rgba(15, 15, 25, 0.6)',
   },
 
-  // Typography
   typography: {
-    // Font families
     fontFamily: {
       heading: 'Inter-Bold',
       body: 'Inter-Regular',
       mono: 'SpaceMono-Regular',
     },
 
-    // Font sizes
     fontSize: {
       xs: 12,
       sm: 14,
@@ -97,7 +81,6 @@ export const fitnessTheme = {
       '5xl': 48,
     },
 
-    // Font weights
     fontWeight: {
       regular: '400',
       medium: '500',
@@ -106,7 +89,6 @@ export const fitnessTheme = {
       extrabold: '800',
     },
 
-    // Line heights
     lineHeight: {
       tight: 1.2,
       normal: 1.5,
@@ -114,7 +96,6 @@ export const fitnessTheme = {
     },
   },
 
-  // Spacing scale (based on 4px)
   spacing: {
     xs: 4,
     sm: 8,
@@ -125,7 +106,6 @@ export const fitnessTheme = {
     '3xl': 64,
   },
 
-  // Border radius
   borderRadius: {
     sm: 8,
     md: 12,
@@ -135,7 +115,6 @@ export const fitnessTheme = {
     full: 9999,
   },
 
-  // Shadows
   shadows: {
     sm: {
       shadowColor: '#000',
@@ -167,7 +146,6 @@ export const fitnessTheme = {
     },
   },
 
-  // Gradients
   gradients: {
     primary: ['#FFFFFF', '#F5F7FB'],
     accent: ['#E9F2FF', '#D7E7FF'],
@@ -179,7 +157,6 @@ export const fitnessTheme = {
     dark: ['#131E3C', '#0B1224'],
   },
 
-  // Animation durations
   animation: {
     fast: 150,
     normal: 250,
@@ -187,7 +164,6 @@ export const fitnessTheme = {
   },
 };
 
-// Helper functions
 export const getWorkoutGradient = (type?: string) => {
   switch (type?.toLowerCase()) {
     case 'cardio':

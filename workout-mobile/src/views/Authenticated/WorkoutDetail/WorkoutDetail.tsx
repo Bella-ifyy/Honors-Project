@@ -136,7 +136,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={palette.background} />
 
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={palette.textPrimary} />
@@ -157,7 +156,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Workout Header Card */}
         <View
           style={[
             styles.workoutHeaderCard,
@@ -190,7 +188,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
           </View>
         </View>
 
-        {/* Stats Grid */}
         <View style={styles.statsGrid}>
           <View style={styles.statCard}>
             <Ionicons name="time-outline" size={24} color={highlight} />
@@ -209,7 +206,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
           </View>
         </View>
 
-        {/* Exercises Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Exercises</Text>
           {workout.exercises && workout.exercises.length > 0 ? (
@@ -251,7 +247,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
           )}
         </View>
 
-        {/* Notes Section */}
         {workout.notes && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Notes</Text>
@@ -261,7 +256,6 @@ const WorkoutDetail = ({ navigation, route }: StackProps<'WorkoutDetailStack'>) 
           </View>
         )}
 
-        {/* Action Buttons */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
             <Ionicons name="trash-outline" size={20} color={palette.textPrimary} />

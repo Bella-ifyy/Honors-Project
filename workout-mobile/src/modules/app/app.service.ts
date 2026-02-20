@@ -1,8 +1,5 @@
 import { getAuthData } from '@utils/store/authStore';
 export function useAppService() {
-  /**
-   * Asynchronous function to get user data from AsyncStorage
-   */
   async function getUser(): Promise<any> {
     try {
       const authData = await getAuthData();

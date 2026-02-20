@@ -206,7 +206,6 @@ const WorkoutSession = ({ navigation, route }: StackProps<'WorkoutSessionStack'>
     };
 
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route?.params]);
 
   const currentExercise = useMemo(() => {

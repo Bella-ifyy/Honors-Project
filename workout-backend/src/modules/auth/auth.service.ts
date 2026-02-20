@@ -37,7 +37,6 @@ export class AuthService {
 
   async repairUserData(authHeader: string, userUUID: string) {
     const candidates = [authHeader].filter(Boolean) as string[];
-    // Normalize common variants just in case
     if (authHeader?.startsWith("Bearer ")) {
       const tokenOnly = authHeader.substring(7);
       candidates.push(tokenOnly);
@@ -89,7 +88,6 @@ export class AuthService {
     Object.assign(newUser, createUserDto);
     const newUserRepo = await this.userRepository.save(newUser);
 
-    // Create default task
     await this.taskService.createTask(
       {
         title: "Create Your First Task",
@@ -100,7 +98,6 @@ export class AuthService {
       newUserRepo.uuid,
     );
 
-    // Send welcome email
     try {
       await this.emailNotificationService.sendWelcomeEmail(
         newUserRepo.email,
@@ -108,7 +105,6 @@ export class AuthService {
       );
     } catch (error) {
       console.error("Failed to send welcome email:", error);
-      // Don't throw error, registration should still succeed
     }
 
     return { ...newUserRepo, token: this.generateJWT(newUser) };
@@ -146,15 +142,6 @@ export class AuthService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    /*  if (!(user.roles.includes("admin") || user.roles.includes("hr"))) {
-      const allRecords = await this.toggleLoginRepository.find();
-      if (allRecords.length > 0) {
-          throw new HttpException(
-            "Login Disabled, kindly contact HR / Admin",
-            HttpStatus.UNPROCESSABLE_ENTITY,
-          );
-      }
-    }*/
     delete user.password;
     return this.buildUserResponse(user);
   }
@@ -205,7 +192,6 @@ export class AuthService {
 
     const entityManager = getManager();
 
-    // Write the raw SQL query with corrected join condition
     const rawQuery = `
     SELECT \`users\`.*, \`employeeData\`.*
     FROM \`users\`
@@ -215,20 +201,17 @@ export class AuthService {
     OFFSET ${skip}
   `;
 
-    // Count the total number of users with the same join condition as the main query
     const countQuery = `
     SELECT COUNT(\`users\`.\`id\`) as count
     FROM \`users\`
     LEFT JOIN \`employeeData\` ON \`employeeData\`.\`user_id\` = \`users\`.\`id\`
   `;
 
-    // Execute the raw SQL query
     const [data, totalCount] = await Promise.all([
       entityManager.query(rawQuery),
       entityManager.query(countQuery),
     ]);
 
-    // Extract the count value from the result of the count query
     const total = totalCount[0].count;
 
     return {
@@ -253,7 +236,6 @@ export class AuthService {
 
       let userUUID: string | undefined = rawAuth;
 
-      // Try to resolve the user's UUID from the JWT (if provided)
       if (bearerStripped) {
         try {
           const decoded: any = verify(bearerStripped, JWT_SECRET);
@@ -264,11 +246,9 @@ export class AuthService {
             }
           }
         } catch (err) {
-          // If verification fails, fall back to using the raw header value
         }
       }
 
-      // As a final fallback, allow an explicit userUUID in the payload
       if (!userUUID && (payload as any)?.userUUID) {
         userUUID = (payload as any).userUUID;
       }
@@ -277,7 +257,6 @@ export class AuthService {
         throw new HttpException("Missing push token", HttpStatus.BAD_REQUEST);
       }
 
-      // If we already have this token, update the userUUID if needed
       const existingRecord = await this.pushDeviceRepository.findOne({
         where: { pushToken: payload.pushToken },
       });
@@ -290,8 +269,6 @@ export class AuthService {
         return existingRecord;
       }
 
-      // Check if a record exists with the given pushToken or authToken
-      // If no record exists, create a new one
       const newPushDevice = this.pushDeviceRepository.create({
         pushToken: payload?.pushToken,
         userUUID,
@@ -305,11 +282,9 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<any> {
     try {
-      // Check if user exists
       const user = await this.userRepository.findOne({ email });
 
       if (!user) {
-        // For security, don't reveal if email exists or not
         return {
           message:
             "If an account with that email exists, we've sent a password reset link.",
@@ -317,15 +292,10 @@ export class AuthService {
         };
       }
 
-      // Generate a simple reset token (in production, use crypto.randomBytes)
       const resetToken =
         Math.random().toString(36).substring(2, 15) +
         Math.random().toString(36).substring(2, 15);
 
-      // Store reset token in user record (you might want to add a resetToken field to UserEntity)
-      // For now, we'll just send the email
-
-      // Send password reset email
       try {
         await this.emailNotificationService.sendPasswordResetEmail(
           user.email,
@@ -334,7 +304,6 @@ export class AuthService {
         );
       } catch (emailError) {
         console.error("Failed to send password reset email:", emailError);
-        // Still return success for security
       }
 
       return {
@@ -359,16 +328,12 @@ export class AuthService {
         throw new HttpException("User not found", HttpStatus.NOT_FOUND);
       }
 
-      // Delete user's tasks first
       await this.taskService.deleteUserTasks(user.uuid);
 
-      // Delete user's notes
       await this.noteService.deleteUserNotes(user.uuid);
 
-      // Delete user's push devices
       await this.pushDeviceRepository.delete({ userUUID: user.uuid });
 
-      // Delete the user
       await this.userRepository.remove(user);
 
       return {
@@ -392,7 +357,6 @@ export class AuthService {
         throw new HttpException("User not found", HttpStatus.NOT_FOUND);
       }
 
-      // Verify password
       const isPasswordCorrect = password === user.password;
       if (!isPasswordCorrect) {
         throw new HttpException(
@@ -401,19 +365,14 @@ export class AuthService {
         );
       }
 
-      // Delete user's tasks
       await this.taskService.deleteUserTasks(user.uuid);
 
-      // Delete user's notes
       await this.noteService.deleteUserNotes(user.uuid);
 
-      // Delete user's push devices
       await this.pushDeviceRepository.delete({ userUUID: user.uuid });
 
-      // Delete user's notification preferences
       await this.notificationPreferenceRepository.delete({ userUUID: user.uuid });
 
-      // Delete the user
       await this.userRepository.remove(user);
 
       return {

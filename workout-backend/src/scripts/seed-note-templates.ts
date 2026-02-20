@@ -175,7 +175,6 @@ async function seedNoteTemplates() {
 
     const noteRepository = connection.getRepository(NoteEntity);
 
-    // Check if templates already exist
     const existingTemplates = await noteRepository.find({
       where: { userUUID: SYSTEM_TEMPLATE_UUID },
     });
@@ -213,4 +212,3 @@ async function seedNoteTemplates() {
 }
 
 seedNoteTemplates();
-

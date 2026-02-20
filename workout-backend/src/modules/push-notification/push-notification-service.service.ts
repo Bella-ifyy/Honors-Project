@@ -31,7 +31,6 @@ export class PushNotificationService {
     } = {},
   ): Promise<void> {
     try {
-      // Fetch recipient's push token using UUID, username, or ID
       const recipientProfile = await this.userEntityRepository.findOne({
         where: [{ uuid: to }, { email: to }],
       });
@@ -56,7 +55,6 @@ export class PushNotificationService {
         return;
       }
 
-      // Build the notification messages for every device
       const notificationMessages: ExpoPushMessage[] = validTokens.map(token => ({
         to: token,
         sound: options.sound ?? "default",
@@ -67,7 +65,6 @@ export class PushNotificationService {
         priority: options.priority ?? "high",
       }));
 
-      // Send the notifications to all devices
       await this.expo.sendPushNotificationsAsync(notificationMessages);
       console.log("Push notification sent:", recipientProfile?.email);
     } catch (error) {

@@ -37,7 +37,6 @@ export class InboxService {
   }
 
   async generateInsights(authUUID: string): Promise<void> {
-    // Get user's tasks
     const tasks = await this.taskRepository.find({
       where: { userUUID: authUUID },
     });
@@ -46,20 +45,17 @@ export class InboxService {
       return;
     }
 
-    // Calculate completion rate
     const completedTasks = tasks.filter((t) => t.isCompleted);
     const completionRate = Math.round(
       (completedTasks.length / tasks.length) * 100,
     );
 
-    // Check for streak
     const last7Days = new Date();
     last7Days.setDate(last7Days.getDate() - 7);
     const recentCompletions = completedTasks.filter(
       (t) => new Date(t.updatedAt) > last7Days,
     );
 
-    // Generate weekly summary if completion rate is good
     if (completionRate >= 70 && recentCompletions.length >= 5) {
       const existingSummary = await this.inboxRepository.findOne({
         where: {
@@ -82,7 +78,6 @@ export class InboxService {
       }
     }
 
-    // Check for streak milestone
     if (recentCompletions.length >= 7) {
       const existingStreak = await this.inboxRepository.findOne({
         where: {
@@ -106,7 +101,6 @@ export class InboxService {
       }
     }
 
-    // Analyze productivity patterns (peak hours)
     const tasksByHour = completedTasks.reduce((acc, task) => {
       const hour = new Date(task.updatedAt).getHours();
       acc[hour] = (acc[hour] || 0) + 1;

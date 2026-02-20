@@ -3,7 +3,6 @@ import { ExerciseEntity } from '../entities/exercise.entity';
 import ormconfig from '../ormconfig';
 
 const exercises = [
-  // STRENGTH - CHEST
   {
     name: 'Bench Press',
     description: 'Lie on a bench and press a barbell upward',
@@ -35,7 +34,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // STRENGTH - BACK
   {
     name: 'Pull-ups',
     description: 'Bodyweight back exercise using bar',
@@ -67,7 +65,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // STRENGTH - LEGS
   {
     name: 'Squats',
     description: 'Fundamental lower body exercise',
@@ -99,7 +96,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // STRENGTH - SHOULDERS
   {
     name: 'Overhead Press',
     description: 'Press weight overhead from shoulders',
@@ -121,7 +117,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // STRENGTH - ARMS
   {
     name: 'Bicep Curls',
     description: 'Classic arm exercise',
@@ -143,7 +138,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // CARDIO
   {
     name: 'Running',
     description: 'Outdoor or treadmill running',
@@ -185,7 +179,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // FLEXIBILITY
   {
     name: 'Yoga Flow',
     description: 'Flowing yoga sequence',
@@ -217,7 +210,6 @@ const exercises = [
     isPreDefined: true,
   },
 
-  // SPORTS
   {
     name: 'Basketball',
     description: 'Basketball game or practice',
@@ -259,7 +251,6 @@ async function seedExercises() {
 
     const exerciseRepository = connection.getRepository(ExerciseEntity);
 
-    // Check if exercises already exist
     const existingCount = await exerciseRepository.count();
     if (existingCount > 0) {
       console.log(`⚠️  Database already has ${existingCount} exercises. Skipping seed.`);
@@ -267,7 +258,6 @@ async function seedExercises() {
       return;
     }
 
-    // Insert exercises
     console.log(`📝 Inserting ${exercises.length} exercises...`);
     for (const exercise of exercises) {
       await exerciseRepository.save(exercise);

@@ -4,6 +4,7 @@ export type StackParamList = {
   WelcomeStack: { from?: string; [key: string]: any };
   CreateAccountStack: { from?: string; [key: string]: any };
   LoginStack: { from?: string; [key: string]: any };
+  WorkoutOnboardingStack: { from?: string; [key: string]: any };
   SettingsStack: { from?: string; [key: string]: any };
   UserSettingsStack: { from?: string; [key: string]: any };
   DeleteAccountStack: { from?: string; [key: string]: any };

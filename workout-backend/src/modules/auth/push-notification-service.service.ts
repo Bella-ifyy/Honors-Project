@@ -36,7 +36,6 @@ export class PushNotificationService {
     try {
       let sender = null;
 
-      // Fetch sender's profile if the sender is not "system"
       if (from !== "system") {
         sender = await this.profileRepository.findOne({
           where: [{ uuid: from }, { email: from }],
@@ -46,7 +45,6 @@ export class PushNotificationService {
         }
       }
 
-      // Fetch recipient's push token using UUID, username, or ID
       const recipientProfile = await this.profileRepository.findOne({
         where: [{ uuid: to }, { email: to }],
       });
@@ -72,7 +70,6 @@ export class PushNotificationService {
         return;
       }
 
-      // Build the notification message
       const notificationMessages: ExpoPushMessage[] = validTokens.map(token => ({
         to: token,
         sound: options.sound ?? "default",
@@ -86,7 +83,6 @@ export class PushNotificationService {
         priority: options.priority ?? "high",
       }));
 
-      // Send the notifications to all devices
       const ticket = await this.expo.sendPushNotificationsAsync(
         notificationMessages,
       );

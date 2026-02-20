@@ -14,6 +14,7 @@ import { DiaryModule } from "./modules/diary/diary.module";
 import { LockPreferenceModule } from "./modules/lock-preference/lock-preference.module";
 import { IntegrationModule } from "./modules/integration/integration.module";
 import { DelegateModule } from "./modules/delegate/delegate.module";
+import { WorkoutModule } from "./modules/workout/workout.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { DelegateModule } from "./modules/delegate/delegate.module";
     DiaryModule,
     LockPreferenceModule,
     IntegrationModule,
+    WorkoutModule,
   ],
   controllers: [AppController],
   providers: [AppService],

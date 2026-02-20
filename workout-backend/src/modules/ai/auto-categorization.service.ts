@@ -4,19 +4,13 @@ import { Injectable } from "@nestjs/common";
 export class AutoCategorizationService {
   constructor() {}
 
-  /**
-   * Auto-categorize task/note based on title and content
-   * Uses keyword matching and context analysis
-   */
   async categorizeContent(
     title: string,
     content: string,
     userUUID: string,
   ): Promise<string> {
-    // Combine title and content for analysis
     const combinedText = `${title} ${content}`.toLowerCase();
 
-    // Category keywords mapping
     const categoryKeywords = {
       work: [
         "work",
@@ -136,7 +130,6 @@ export class AutoCategorizationService {
       ],
     };
 
-    // Score each category
     const categoryScores: { [key: string]: number } = {};
 
     for (const [category, keywords] of Object.entries(categoryKeywords)) {
@@ -149,29 +142,20 @@ export class AutoCategorizationService {
       categoryScores[category] = score;
     }
 
-    // Find the best matching category
     const bestCategory = Object.keys(categoryScores).reduce((a, b) =>
       categoryScores[a] > categoryScores[b] ? a : b,
     );
 
-    // Return the category name instead of project ID
     return this.capitalizeFirstLetter(bestCategory);
   }
 
-  /**
-   * Capitalize first letter of string
-   */
   private capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  /**
-   * Get suggested project name based on content
-   */
   async suggestProjectName(title: string, content: string): Promise<string> {
     const combinedText = `${title} ${content}`.toLowerCase();
 
-    // Extract potential project names (capitalized words or phrases)
     const words = combinedText.split(/\s+/);
     const meaningfulWords = words.filter((word) => word.length > 4);
 

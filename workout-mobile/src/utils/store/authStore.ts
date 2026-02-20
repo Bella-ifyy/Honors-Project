@@ -9,10 +9,6 @@ type AuthData = {
 
 const AUTH_KEY = '@authData';
 
-/**
- * Stores authentication data in AsyncStorage.
- * @param authData The authentication data to store.
- */
 export const setAuthData = async (authData: any): Promise<void> => {
   try {
     const existingData = await AsyncStorage.getItem(AUTH_KEY);
@@ -29,10 +25,6 @@ export const setAuthData = async (authData: any): Promise<void> => {
   }
 };
 
-/**
- * Retrieves the current authentication data.
- * @returns The current authentication data as a parsed object, or null if no data exists.
- */
 export function getAuthData(): Promise<AuthData | null>;
 export function getAuthData<T = unknown>(key: string): Promise<T | null>;
 export async function getAuthData<T = unknown>(key?: string): Promise<AuthData | T | null> {
@@ -54,11 +46,6 @@ export async function getAuthData<T = unknown>(key?: string): Promise<AuthData |
   }
 }
 
-/**
- * Updates a specific field in the authentication data.
- * @param key The key of the field to update.
- * @param value The value to update the field with.
- */
 export const updateAuthDataField = async (key: string, value: any): Promise<void> => {
   try {
     const existingData = await AsyncStorage.getItem(AUTH_KEY);
@@ -75,9 +62,6 @@ export const updateAuthDataField = async (key: string, value: any): Promise<void
   }
 };
 
-/**
- * Clears the authentication data.
- */
 export const clearAuthData = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(AUTH_KEY);

@@ -1,18 +1,10 @@
 import { ConnectionOptions } from "typeorm";
 import * as dotenv from "dotenv";
 dotenv.config();
-let config: ConnectionOptions = {
-  database: "",
-  driver: undefined,
-  location: "",
-  region: "",
-  resourceArn: "",
-  secretArn: "",
-  type: undefined,
-};
+
 console.log(process.env.DB_NAME);
 
-config = {
+const config: ConnectionOptions = {
   type: "mysql",
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
@@ -26,6 +18,8 @@ config = {
   cli: {
     migrationsDir: "src/migrations",
   },
+  // Use mysql2 for better authentication support (caching_sha2_password)
+  driver: require("mysql2"),
 };
 
 export default config;

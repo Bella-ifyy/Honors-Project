@@ -189,7 +189,6 @@ async function seedDiaryTemplates() {
 
     const diaryRepository = connection.getRepository(DiaryEntryEntity);
 
-    // Check if templates already exist
     const existingTemplates = await diaryRepository.find({
       where: { userUUID: SYSTEM_TEMPLATE_UUID },
     });
@@ -227,4 +226,3 @@ async function seedDiaryTemplates() {
 }
 
 seedDiaryTemplates();
-

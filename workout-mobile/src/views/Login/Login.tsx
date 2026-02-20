@@ -51,8 +51,12 @@ const Login = ({ navigation }: StackProps<'LoginStack'>) => {
       console.log(response.data);
       if ([200, 201].includes(response.status)) {
         const user = response.data.user;
-        await setAuthData(user);
-        dispatch(setUser(user));
+        const normalizedUser = {
+          ...user,
+          workoutOnboardingCompleted: Boolean(user?.workoutOnboardingCompleted),
+        };
+        await setAuthData(normalizedUser);
+        dispatch(setUser(normalizedUser));
         if (biometricAvailable) {
           if (useBiometrics) {
             await saveCredentials({ email: loginEmail, password: loginPassword });
