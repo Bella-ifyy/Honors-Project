@@ -54,6 +54,28 @@ export type RoutineTemplate = {
   exercises?: any[];
 };
 
+export type DiaryMood = 'reflective' | 'grateful' | 'energized' | 'calm' | 'melancholy';
+
+export type DiaryEntry = {
+  id: number;
+  userUUID: string;
+  title: string;
+  content: string;
+  mood: DiaryMood;
+  tags?: string[];
+  favorite: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type UpsertDiaryPayload = {
+  title?: string;
+  content?: string;
+  mood?: DiaryMood;
+  tags?: string[];
+  favorite?: boolean;
+};
+
 export const workoutApi = {
   async createWorkout(workoutData: any) {
     const axiosInstance = await createAxiosInstance();
@@ -275,5 +297,40 @@ export const workoutApi = {
     const headers = await buildAuthHeaders();
     const response = await axiosInstance.put('/workout/profile', payload, { headers });
     return response.data;
+  },
+
+  async listDiaryEntries() {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.get('/diary', { headers });
+    return response.data as DiaryEntry[];
+  },
+
+  async createDiaryEntry(payload: UpsertDiaryPayload) {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.post('/diary', payload, { headers });
+    return response.data as DiaryEntry;
+  },
+
+  async updateDiaryEntry(entryId: number, payload: UpsertDiaryPayload) {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.put(`/diary/${entryId}`, payload, { headers });
+    return response.data as DiaryEntry;
+  },
+
+  async deleteDiaryEntry(entryId: number) {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.delete(`/diary/${entryId}`, { headers });
+    return response.data as { message: string };
+  },
+
+  async toggleDiaryFavorite(entryId: number) {
+    const axiosInstance = await createAxiosInstance();
+    const headers = await buildAuthHeaders();
+    const response = await axiosInstance.put(`/diary/${entryId}/favorite`, {}, { headers });
+    return response.data as DiaryEntry;
   },
 };
