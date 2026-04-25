@@ -6,6 +6,7 @@ The workout session component supports exercise animations to help users underst
 
 ## How It Works
 
+
 1. **Primary Source**: Animations come from the backend API via the `mediaUrl` field in exercise data
 2. **Fallback System**: If no `mediaUrl` is provided, the app uses a fallback mapping in `src/utils/exerciseAnimations.ts`
 
