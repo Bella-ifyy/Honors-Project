@@ -36,8 +36,16 @@ jobs:
           cache: yarn
           cache-dependency-path: workout-backend/yarn.lock
 
+      # Lock Yarn 1.x (yarn.lock format v1). Some runners ship Yarn 4 via Corepack as `yarn`, which breaks installs here.
+      - name: Install Yarn Classic
+        run: npm install -g yarn@1.22.22 && yarn --version
+
+      # bcrypt / node-gyp builds need a compiler on clean Ubuntu runners
+      - name: Install native build toolchain
+        run: sudo apt-get update && sudo apt-get install -y python3 make g++
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --network-timeout 600000
 
       - name: Build
         run: yarn build
@@ -69,8 +77,11 @@ jobs:
           cache: yarn
           cache-dependency-path: workout-mobile/yarn.lock
 
+      - name: Install Yarn Classic
+        run: npm install -g yarn@1.22.22 && yarn --version
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile --network-timeout 600000
 
       - name: Tests
         run: yarn test --passWithNoTests
