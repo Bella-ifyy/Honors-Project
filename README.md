@@ -17,7 +17,7 @@ Backend routes are served under the global prefix:
 
 ## Prerequisites
 
-- **Node.js** 18.x (aligned with `workout-backend/dev.Dockerfile`)
+- **Node.js** 20.x for local dev and CI (Firebase transitive deps require **≥20**; `dev.Dockerfile` may still reference 18 — align Docker when you rebuild images)
 - **Yarn** classic (1.x) — both packages use `yarn.lock`
 - **MySQL** — required to run the API against a real database (tests in CI use mocked modules and do not need MySQL)
 
