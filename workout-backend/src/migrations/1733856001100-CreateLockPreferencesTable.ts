@@ -29,7 +29,12 @@ export class CreateLockPreferencesTable1733856001100
           { name: "workoutsLockEnabled", type: "tinyint", default: 0 },
           { name: "requireBiometrics", type: "tinyint", default: 0 },
           { name: "diaryModuleEnabled", type: "tinyint", default: 0 },
-          { name: "passwordHash", type: "varchar", length: "255", isNullable: true },
+          {
+            name: "passwordHash",
+            type: "varchar",
+            length: "255",
+            isNullable: true,
+          },
           { name: "passwordUpdatedAt", type: "timestamp", isNullable: true },
           {
             name: "createdAt",

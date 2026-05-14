@@ -44,26 +44,31 @@ export class PushNotificationService {
       });
 
       const validTokens = pushDevices
-        .map(device => device.pushToken)
+        .map((device) => device.pushToken)
         .filter(
           (token): token is string =>
             typeof token === "string" && Expo.isExpoPushToken(token),
         );
 
       if (validTokens.length === 0) {
-        console.log("Recipient push token not found or invalid", HttpStatus.NOT_FOUND);
+        console.log(
+          "Recipient push token not found or invalid",
+          HttpStatus.NOT_FOUND,
+        );
         return;
       }
 
-      const notificationMessages: ExpoPushMessage[] = validTokens.map(token => ({
-        to: token,
-        sound: options.sound ?? "default",
-        title: from,
-        body: message,
-        data: { from, to, ...(options.data ?? {}) },
-        channelId: options.channelId ?? "general-alerts",
-        priority: options.priority ?? "high",
-      }));
+      const notificationMessages: ExpoPushMessage[] = validTokens.map(
+        (token) => ({
+          to: token,
+          sound: options.sound ?? "default",
+          title: from,
+          body: message,
+          data: { from, to, ...(options.data ?? {}) },
+          channelId: options.channelId ?? "general-alerts",
+          priority: options.priority ?? "high",
+        }),
+      );
 
       await this.expo.sendPushNotificationsAsync(notificationMessages);
       console.log("Push notification sent:", recipientProfile?.email);

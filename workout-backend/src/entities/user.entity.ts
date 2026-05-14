@@ -40,5 +40,4 @@ export class UserEntity {
       console.log("Generated UUID:", this.uuid);
     }
   }
-
 }

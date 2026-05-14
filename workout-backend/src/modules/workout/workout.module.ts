@@ -35,7 +35,11 @@ import { WorkoutProfileController } from "./workout-profile.controller";
     ]),
     AuthModule,
   ],
-  controllers: [WorkoutController, PublicWorkoutController, WorkoutProfileController],
+  controllers: [
+    WorkoutController,
+    PublicWorkoutController,
+    WorkoutProfileController,
+  ],
   providers: [WorkoutService, WorkoutProfileService],
   exports: [WorkoutService],
 })

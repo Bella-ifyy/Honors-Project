@@ -5,7 +5,10 @@ import Expo, { ExpoPushMessage } from "expo-server-sdk";
 import { UserEntity } from "../../entities/user.entity";
 import { PushDeviceEntity } from "../../entities/push-device.entity";
 
-export type PushNotificationChannels = "task-alerts" | "general-alerts" | "default";
+export type PushNotificationChannels =
+  | "task-alerts"
+  | "general-alerts"
+  | "default";
 
 interface PushNotificationOptions {
   channelId?: PushNotificationChannels;
@@ -57,7 +60,7 @@ export class PushNotificationService {
       });
 
       const validTokens = pushDevices
-        .map(device => device.pushToken)
+        .map((device) => device.pushToken)
         .filter(
           (token): token is string =>
             typeof token === "string" && Expo.isExpoPushToken(token),
@@ -70,18 +73,22 @@ export class PushNotificationService {
         return;
       }
 
-      const notificationMessages: ExpoPushMessage[] = validTokens.map(token => ({
-        to: token,
-        sound: options.sound ?? "default",
-        title:
-          from === "system"
-            ? "System Notification"
-            : `New Notification from ${sender?.firstName || "Unknown Sender"}`,
-        body: message,
-        data: { from, to, ...(options.data ?? {}) },
-        channelId: options.channelId ?? "general-alerts",
-        priority: options.priority ?? "high",
-      }));
+      const notificationMessages: ExpoPushMessage[] = validTokens.map(
+        (token) => ({
+          to: token,
+          sound: options.sound ?? "default",
+          title:
+            from === "system"
+              ? "System Notification"
+              : `New Notification from ${
+                  sender?.firstName || "Unknown Sender"
+                }`,
+          body: message,
+          data: { from, to, ...(options.data ?? {}) },
+          channelId: options.channelId ?? "general-alerts",
+          priority: options.priority ?? "high",
+        }),
+      );
 
       const ticket = await this.expo.sendPushNotificationsAsync(
         notificationMessages,

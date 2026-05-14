@@ -74,7 +74,7 @@ export class DropWorkoutTables1766619919000 implements MigrationInterface {
       ) ENGINE=InnoDB
     `);
     await queryRunner.query(
-      "CREATE UNIQUE INDEX `IDX_WORKOUT_REMINDER_USER_17654` ON `workout_reminders` (`userUUID`)"
+      "CREATE UNIQUE INDEX `IDX_WORKOUT_REMINDER_USER_17654` ON `workout_reminders` (`userUUID`)",
     );
     await queryRunner.query(`
       CREATE TABLE \`user_progress\` (

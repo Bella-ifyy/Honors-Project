@@ -245,8 +245,7 @@ export class AuthService {
               userUUID = user.uuid;
             }
           }
-        } catch (err) {
-        }
+        } catch (err) {}
       }
 
       if (!userUUID && (payload as any)?.userUUID) {
@@ -359,10 +358,7 @@ export class AuthService {
 
       const isPasswordCorrect = password === user.password;
       if (!isPasswordCorrect) {
-        throw new HttpException(
-          "Invalid password",
-          HttpStatus.UNAUTHORIZED,
-        );
+        throw new HttpException("Invalid password", HttpStatus.UNAUTHORIZED);
       }
 
       await this.taskService.deleteUserTasks(user.uuid);
@@ -371,7 +367,9 @@ export class AuthService {
 
       await this.pushDeviceRepository.delete({ userUUID: user.uuid });
 
-      await this.notificationPreferenceRepository.delete({ userUUID: user.uuid });
+      await this.notificationPreferenceRepository.delete({
+        userUUID: user.uuid,
+      });
 
       await this.userRepository.remove(user);
 

@@ -1,6 +1,10 @@
+# Workout backend
+
+NestJS API for the Workout product (TypeORM + MySQL). **Setup, scripts, testing, and CI** are documented in the [repository root README](../README.md).
+
 ## Integration API
 
-workout supports API keys for external integrations. API keys let other apps create or update notes and tasks.
+Workout supports API keys for external integrations. API keys let other apps create or update notes and tasks.
 
 ### Create an API key
 
@@ -39,3 +43,5 @@ POST /integrations/tasks
 PUT /integrations/tasks/:id
 DELETE /integrations/tasks/:id
 ```
+
+(Path prefix `workout/api/v1` applies in production; see root README.)

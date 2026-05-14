@@ -1,0 +1,76 @@
+# CI: backend build + tests; mobile install + jest (pass-with-no-tests).
+# Lint is intentionally omitted until ESLint debt is cleared — every job here must pass.
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend — build & test
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      HUSKY: "0"
+    defaults:
+      run:
+        working-directory: workout-backend
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: yarn
+          cache-dependency-path: workout-backend/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Unit tests
+        run: yarn test --passWithNoTests
+
+      - name: E2E tests
+        run: yarn test:e2e
+
+  mobile:
+    name: Mobile — test
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      HUSKY: "0"
+    defaults:
+      run:
+        working-directory: workout-mobile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: yarn
+          cache-dependency-path: workout-mobile/yarn.lock
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Tests
+        run: yarn test --passWithNoTests

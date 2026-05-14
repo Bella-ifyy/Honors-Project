@@ -1,6 +1,8 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class CreateWorkoutProfilesTable1772100000000 implements MigrationInterface {
+export class CreateWorkoutProfilesTable1772100000000
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS \`workout_profiles\` (

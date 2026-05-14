@@ -62,7 +62,7 @@ export class CreateDiaryEntriesTable1733856001000
             onUpdate: "CURRENT_TIMESTAMP",
           },
         ],
-      })
+      }),
     );
   }
 

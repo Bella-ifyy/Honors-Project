@@ -18,7 +18,7 @@ export class ApiKeyService {
   }
 
   hasScopes(current: string[], required: string[]): boolean {
-    return required.every(scope => current.includes(scope));
+    return required.every((scope) => current.includes(scope));
   }
 
   async createKey(

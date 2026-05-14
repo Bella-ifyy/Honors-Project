@@ -22,7 +22,10 @@ export class ApiKeyController {
   constructor(private readonly apiKeyService: ApiKeyService) {}
 
   @Get()
-  async listKeys(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async listKeys(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = req.user?.uuid || authHeader;
     return this.apiKeyService.listKeys(userUUID);
   }
@@ -35,7 +38,11 @@ export class ApiKeyController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = req.user?.uuid || authHeader;
-    const result = await this.apiKeyService.createKey(userUUID, body?.name, body?.scopes);
+    const result = await this.apiKeyService.createKey(
+      userUUID,
+      body?.name,
+      body?.scopes,
+    );
     return {
       id: result.apiKey.id,
       name: result.apiKey.name,

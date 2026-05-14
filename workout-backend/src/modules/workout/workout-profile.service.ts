@@ -35,7 +35,9 @@ export class WorkoutProfileService {
       }
       try {
         const parsed = JSON.parse(trimmed);
-        return Array.isArray(parsed) ? JSON.stringify(parsed) : JSON.stringify([trimmed]);
+        return Array.isArray(parsed)
+          ? JSON.stringify(parsed)
+          : JSON.stringify([trimmed]);
       } catch (_error) {
         return JSON.stringify([trimmed]);
       }
@@ -51,7 +53,10 @@ export class WorkoutProfileService {
       const parsed = JSON.parse(value);
       return Array.isArray(parsed) ? parsed : [String(parsed)];
     } catch (_error) {
-      return value.split(",").map(item => item.trim()).filter(Boolean);
+      return value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
     }
   }
 

@@ -43,10 +43,15 @@ export class IntegrationController {
       if (!preferences.pushNotifications) {
         return;
       }
-      await this.pushNotification.sendNotification("system", userUUID, message, {
-        channelId,
-        data: { source: "api", ...(data ?? {}) },
-      });
+      await this.pushNotification.sendNotification(
+        "system",
+        userUUID,
+        message,
+        {
+          channelId,
+          data: { source: "api", ...(data ?? {}) },
+        },
+      );
     } catch (error) {
       console.warn("Integration push notification failed:", error);
     }
@@ -55,7 +60,10 @@ export class IntegrationController {
   @Post("notes")
   @ApiKeyScopes("notes:write")
   @UsePipes(new ValidationPipe({ transform: true }))
-  async createNote(@Req() req: ExpressRequest, @Body() body: IntegrationNoteDto) {
+  async createNote(
+    @Req() req: ExpressRequest,
+    @Body() body: IntegrationNoteDto,
+  ) {
     const apiKey = req.apiKey;
     const note = await this.noteService.createNote(
       {
@@ -76,7 +84,9 @@ export class IntegrationController {
 
   @Put("notes/:id")
   @ApiKeyScopes("notes:write")
-  @UsePipes(new ValidationPipe({ transform: true, skipMissingProperties: true }))
+  @UsePipes(
+    new ValidationPipe({ transform: true, skipMissingProperties: true }),
+  )
   async updateNote(
     @Req() req: ExpressRequest,
     @Param("id") id: number,
@@ -106,7 +116,9 @@ export class IntegrationController {
       apiKey.userUUID,
     );
     if (note.createdByApiKeyId && note.createdByApiKeyId !== apiKey.id) {
-      throw new ForbiddenException("Cannot delete notes created by other API keys");
+      throw new ForbiddenException(
+        "Cannot delete notes created by other API keys",
+      );
     }
     const result = await this.noteService.deleteNoteById(
       Number(id),
@@ -124,7 +136,10 @@ export class IntegrationController {
   @Post("tasks")
   @ApiKeyScopes("tasks:write")
   @UsePipes(new ValidationPipe({ transform: true }))
-  async createTask(@Req() req: ExpressRequest, @Body() body: IntegrationTaskDto) {
+  async createTask(
+    @Req() req: ExpressRequest,
+    @Body() body: IntegrationTaskDto,
+  ) {
     const apiKey = req.apiKey;
     const task = await this.taskService.createTaskFromIntegration(
       body,
@@ -142,7 +157,9 @@ export class IntegrationController {
 
   @Put("tasks/:id")
   @ApiKeyScopes("tasks:write")
-  @UsePipes(new ValidationPipe({ transform: true, skipMissingProperties: true }))
+  @UsePipes(
+    new ValidationPipe({ transform: true, skipMissingProperties: true }),
+  )
   async updateTask(
     @Req() req: ExpressRequest,
     @Param("id") id: string,
@@ -167,7 +184,10 @@ export class IntegrationController {
   @ApiKeyScopes("tasks:write")
   async deleteTask(@Req() req: ExpressRequest, @Param("id") id: string) {
     const apiKey = req.apiKey;
-    const task = await this.taskService.getTaskById(String(id), apiKey.userUUID);
+    const task = await this.taskService.getTaskById(
+      String(id),
+      apiKey.userUUID,
+    );
     const result = await this.taskService.deleteTask(
       String(id),
       apiKey.userUUID,

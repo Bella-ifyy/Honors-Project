@@ -96,6 +96,14 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "moduleNameMapper": {
+      "^@app/(.*)$": "<rootDir>/$1",
+      "^node:crypto$": "<rootDir>/__mocks__/nodeCrypto.ts",
+      "^node:assert$": "<rootDir>/__mocks__/nodeAssert.ts",
+      "^node:assert/strict$": "<rootDir>/__mocks__/nodeAssert.ts",
+      "^node:zlib$": "<rootDir>/__mocks__/nodeZlib.ts",
+      "^axios$": "<rootDir>/__mocks__/axios.ts"
+    },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],

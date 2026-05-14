@@ -1,5 +1,9 @@
 import { NoteEntity } from "../../entities/note.entity";
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import type { IOptions } from "sanitize-html";
@@ -29,13 +33,13 @@ const RICH_TEXT_SANITIZE_OPTIONS: IOptions = {
     "a",
     "h1",
     "h2",
-    "h3"
+    "h3",
   ],
   allowedAttributes: {
     a: ["href", "target", "rel"],
     span: [],
     code: [],
-    pre: []
+    pre: [],
   },
   allowedSchemes: ["http", "https", "mailto"],
   allowedSchemesAppliedToAttributes: ["href"],
@@ -55,7 +59,6 @@ export class NoteService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
 
-
     private readonly autoCategorizationService: AutoCategorizationService,
   ) {}
 
@@ -70,10 +73,10 @@ export class NoteService {
     if (!tags) {
       return null;
     }
-    const raw = Array.isArray(tags) ? tags : String(tags).split(',');
+    const raw = Array.isArray(tags) ? tags : String(tags).split(",");
     const normalized = raw
-      .map(tag => String(tag).trim())
-      .filter(tag => tag.length > 0);
+      .map((tag) => String(tag).trim())
+      .filter((tag) => tag.length > 0);
     return normalized.length ? normalized : null;
   }
 
@@ -118,7 +121,7 @@ export class NoteService {
     const delegateLinks = await this.delegateRepository.find({
       where: { delegateUUID: userUUID },
     });
-    const ownerUUIDs = delegateLinks.map(link => link.ownerUUID);
+    const ownerUUIDs = delegateLinks.map((link) => link.ownerUUID);
 
     if (!ownerUUIDs.length) {
       const notes = await this.noteRepository.find({ where: { userUUID } });
@@ -211,7 +214,10 @@ export class NoteService {
       if (taskId === null || taskId === undefined || taskId === "") {
         note.taskId = null;
       } else {
-        const task = await this.ensureTaskOwnership(Number(taskId), note.userUUID);
+        const task = await this.ensureTaskOwnership(
+          Number(taskId),
+          note.userUUID,
+        );
         note.taskId = task?.id ?? null;
       }
     }
@@ -252,7 +258,7 @@ export class NoteService {
     const delegateLinks = await this.delegateRepository.find({
       where: { delegateUUID: authHeader },
     });
-    const ownerUUIDs = delegateLinks.map(link => link.ownerUUID);
+    const ownerUUIDs = delegateLinks.map((link) => link.ownerUUID);
 
     return await this.noteRepository
       .createQueryBuilder("note")
@@ -268,7 +274,7 @@ export class NoteService {
       })
       .orderBy("note.createdAt", "DESC")
       .getMany()
-      .then(notes => this.attachOwnerInfo(notes));
+      .then((notes) => this.attachOwnerInfo(notes));
   }
 
   async getNotesByCategory(
@@ -307,7 +313,7 @@ export class NoteService {
       await this.noteRepository.delete({ userUUID });
       await this.noteShareRepository.delete({ ownerUUID: userUUID });
     } catch (error) {
-      console.error('Error deleting user notes:', error);
+      console.error("Error deleting user notes:", error);
       throw error;
     }
   }
@@ -339,10 +345,10 @@ export class NoteService {
     const delegates = await this.delegateRepository.find({
       where: { ownerUUID },
     });
-    const allowed = new Set(delegates.map(delegate => delegate.delegateUUID));
+    const allowed = new Set(delegates.map((delegate) => delegate.delegateUUID));
 
     const normalized = shares
-      .filter(share => allowed.has(share.delegateUUID))
+      .filter((share) => allowed.has(share.delegateUUID))
       .reduce<Map<string, { delegateUUID: string; canEdit: boolean }>>(
         (acc, share) => {
           acc.set(share.delegateUUID, {
@@ -361,7 +367,7 @@ export class NoteService {
     await this.noteShareRepository.delete({ noteId, ownerUUID });
 
     if (normalized.size > 0) {
-      const newShares = Array.from(normalized.values()).map(share =>
+      const newShares = Array.from(normalized.values()).map((share) =>
         this.noteShareRepository.create({
           noteId,
           ownerUUID,
@@ -391,7 +397,10 @@ export class NoteService {
     return { isOwner, canEdit, canView };
   }
 
-  private async canViewNote(note: NoteEntity, userUUID: string): Promise<boolean> {
+  private async canViewNote(
+    note: NoteEntity,
+    userUUID: string,
+  ): Promise<boolean> {
     if (note.userUUID === userUUID) {
       return true;
     }
@@ -404,7 +413,10 @@ export class NoteService {
     return Boolean(delegate);
   }
 
-  private async canEditNote(note: NoteEntity, userUUID: string): Promise<boolean> {
+  private async canEditNote(
+    note: NoteEntity,
+    userUUID: string,
+  ): Promise<boolean> {
     if (note.userUUID === userUUID) {
       return true;
     }
@@ -421,12 +433,12 @@ export class NoteService {
     if (!notes.length) {
       return notes;
     }
-    const ownerUUIDs = Array.from(new Set(notes.map(note => note.userUUID)));
+    const ownerUUIDs = Array.from(new Set(notes.map((note) => note.userUUID)));
     const owners = await this.userRepository.find({
       where: { uuid: In(ownerUUIDs) },
     });
     const ownerMap = new Map(
-      owners.map(owner => [
+      owners.map((owner) => [
         owner.uuid,
         {
           ownerName: `${owner.firstName ?? ""} ${owner.lastName ?? ""}`.trim(),
@@ -434,7 +446,7 @@ export class NoteService {
         },
       ]),
     );
-    return notes.map(note => ({
+    return notes.map((note) => ({
       ...note,
       ownerName: ownerMap.get(note.userUUID)?.ownerName || null,
       ownerEmail: ownerMap.get(note.userUUID)?.ownerEmail || null,

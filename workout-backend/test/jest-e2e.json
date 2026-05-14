@@ -9,5 +9,13 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@app/(.*)$": "<rootDir>/../src/$1",
+    "^node:crypto$": "<rootDir>/../src/__mocks__/nodeCrypto.ts",
+    "^node:assert$": "<rootDir>/../src/__mocks__/nodeAssert.ts",
+    "^node:assert/strict$": "<rootDir>/../src/__mocks__/nodeAssert.ts",
+    "^node:zlib$": "<rootDir>/../src/__mocks__/nodeZlib.ts",
+    "^axios$": "<rootDir>/../src/__mocks__/axios.ts"
   }
 }

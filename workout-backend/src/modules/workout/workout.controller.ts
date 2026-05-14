@@ -46,7 +46,11 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.updateWorkout(Number(workoutId), updateWorkoutDto, userUUID);
+    return await this.workoutService.updateWorkout(
+      Number(workoutId),
+      updateWorkoutDto,
+      userUUID,
+    );
   }
 
   @Get("list")
@@ -68,7 +72,10 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.createExercise(createExerciseDto, userUUID);
+    return await this.workoutService.createExercise(
+      createExerciseDto,
+      userUUID,
+    );
   }
 
   @Get("exercise/list")
@@ -76,7 +83,7 @@ export class WorkoutController {
     return await this.workoutService.listExercises();
   }
 
-  @Get("exercise/:id")
+  @Get("exercise/:id(\\d+)")
   async getExercise(@Param("id") exerciseId: string) {
     return await this.workoutService.getExercise(Number(exerciseId));
   }
@@ -99,7 +106,10 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.toggleExerciseFavorite(Number(exerciseId), userUUID);
+    return await this.workoutService.toggleExerciseFavorite(
+      Number(exerciseId),
+      userUUID,
+    );
   }
 
   @Post("routine/create")
@@ -145,7 +155,11 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.updateRoutine(Number(routineId), updateRoutineDto, userUUID);
+    return await this.workoutService.updateRoutine(
+      Number(routineId),
+      updateRoutineDto,
+      userUUID,
+    );
   }
 
   @Delete("routine/:id")
@@ -177,7 +191,10 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.toggleRoutineFavorite(Number(routineId), userUUID);
+    return await this.workoutService.toggleRoutineFavorite(
+      Number(routineId),
+      userUUID,
+    );
   }
 
   @Post("progress/create")
@@ -189,7 +206,10 @@ export class WorkoutController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = this.resolveUserUUID(req, authHeader);
-    return await this.workoutService.createProgress(createProgressDto, userUUID);
+    return await this.workoutService.createProgress(
+      createProgressDto,
+      userUUID,
+    );
   }
 
   @Get("progress/list")

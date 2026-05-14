@@ -1,8 +1,8 @@
-import { createConnection } from 'typeorm';
-import ormconfig from '../ormconfig';
-import { NoteEntity } from '../entities/note.entity';
+import { createConnection } from "typeorm";
+import ormconfig from "../ormconfig";
+import { NoteEntity } from "../entities/note.entity";
 
-const SYSTEM_TEMPLATE_UUID = '00000000-0000-0000-0000-000000000000';
+const SYSTEM_TEMPLATE_UUID = "00000000-0000-0000-0000-000000000000";
 
 type NoteTemplate = {
   title: string;
@@ -13,7 +13,7 @@ type NoteTemplate = {
 
 const noteTemplates: NoteTemplate[] = [
   {
-    title: 'Meeting Notes Template',
+    title: "Meeting Notes Template",
     content: `# Meeting Notes
 
 ## Date: [Date]
@@ -34,11 +34,11 @@ const noteTemplates: NoteTemplate[] = [
 
 ### Next Steps
 - `,
-    category: 'Work',
-    tags: ['meeting', 'work'],
+    category: "Work",
+    tags: ["meeting", "work"],
   },
   {
-    title: 'Project Planning Template',
+    title: "Project Planning Template",
     content: `# Project: [Project Name]
 
 ## Overview
@@ -62,11 +62,11 @@ const noteTemplates: NoteTemplate[] = [
 
 ## Notes
 `,
-    category: 'Work',
-    tags: ['project', 'planning'],
+    category: "Work",
+    tags: ["project", "planning"],
   },
   {
-    title: 'Daily Reflection Template',
+    title: "Daily Reflection Template",
     content: `# Daily Reflection - [Date]
 
 ## What went well today?
@@ -83,11 +83,11 @@ const noteTemplates: NoteTemplate[] = [
 
 ## Tomorrow's Focus
 - `,
-    category: 'Personal',
-    tags: ['reflection', 'daily'],
+    category: "Personal",
+    tags: ["reflection", "daily"],
   },
   {
-    title: 'Book Notes Template',
+    title: "Book Notes Template",
     content: `# [Book Title] by [Author]
 
 ## Key Takeaways
@@ -105,11 +105,11 @@ const noteTemplates: NoteTemplate[] = [
 - [ ] 
 - [ ] 
 `,
-    category: 'Learning',
-    tags: ['books', 'learning'],
+    category: "Learning",
+    tags: ["books", "learning"],
   },
   {
-    title: 'Recipe Template',
+    title: "Recipe Template",
     content: `# [Recipe Name]
 
 ## Ingredients
@@ -127,11 +127,11 @@ const noteTemplates: NoteTemplate[] = [
 - Cook time: 
 - Serves: 
 `,
-    category: 'Personal',
-    tags: ['recipe', 'cooking'],
+    category: "Personal",
+    tags: ["recipe", "cooking"],
   },
   {
-    title: 'Travel Planning Template',
+    title: "Travel Planning Template",
     content: `# Trip to [Destination]
 
 ## Dates
@@ -159,18 +159,18 @@ const noteTemplates: NoteTemplate[] = [
 - Travel insurance: 
 - Documents needed: 
 `,
-    category: 'Personal',
-    tags: ['travel', 'planning'],
+    category: "Personal",
+    tags: ["travel", "planning"],
   },
 ];
 
 async function seedNoteTemplates() {
-  console.log('🌱 Starting note template seeding...');
+  console.log("🌱 Starting note template seeding...");
 
   try {
     const connection = await createConnection({
       ...ormconfig,
-      name: 'seed-note-templates',
+      name: "seed-note-templates",
     });
 
     const noteRepository = connection.getRepository(NoteEntity);
@@ -180,7 +180,9 @@ async function seedNoteTemplates() {
     });
 
     if (existingTemplates.length > 0) {
-      console.log(`⚠️  Found ${existingTemplates.length} existing templates. Clearing...`);
+      console.log(
+        `⚠️  Found ${existingTemplates.length} existing templates. Clearing...`,
+      );
       await noteRepository.delete({ userUUID: SYSTEM_TEMPLATE_UUID });
     }
 
@@ -206,7 +208,7 @@ async function seedNoteTemplates() {
     await connection.close();
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding note templates:', error);
+    console.error("❌ Error seeding note templates:", error);
     process.exit(1);
   }
 }

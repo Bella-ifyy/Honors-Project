@@ -69,7 +69,10 @@ export class TaskService {
     userUUID: string,
   ): Promise<TaskEntity> {
     if (!userUUID) {
-      throw new HttpException("User identifier missing", HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        "User identifier missing",
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const task = await this.buildTaskEntity(createTaskDto, userUUID);
@@ -89,7 +92,10 @@ export class TaskService {
     apiKeyId: number,
   ): Promise<TaskEntity> {
     if (!userUUID) {
-      throw new HttpException("User identifier missing", HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        "User identifier missing",
+        HttpStatus.UNAUTHORIZED,
+      );
     }
     const task = await this.buildTaskEntity(payload, userUUID, apiKeyId);
     try {
@@ -121,27 +127,42 @@ export class TaskService {
       task.createdByApiKeyId = apiKeyId;
       task.createdVia = "api";
     }
-    
+
     if (payload.category) {
       task.category = payload.category;
     } else {
       const title = (payload.title ?? "").toLowerCase();
-      if (title.includes('work') || title.includes('meeting') || title.includes('office')) {
-        task.category = 'Work';
-      } else if (title.includes('health') || title.includes('exercise') || title.includes('doctor')) {
-        task.category = 'Health';
-      } else if (title.includes('learn') || title.includes('study') || title.includes('course')) {
-        task.category = 'Learning';
+      if (
+        title.includes("work") ||
+        title.includes("meeting") ||
+        title.includes("office")
+      ) {
+        task.category = "Work";
+      } else if (
+        title.includes("health") ||
+        title.includes("exercise") ||
+        title.includes("doctor")
+      ) {
+        task.category = "Health";
+      } else if (
+        title.includes("learn") ||
+        title.includes("study") ||
+        title.includes("course")
+      ) {
+        task.category = "Learning";
       } else {
-        task.category = 'Personal';
+        task.category = "Personal";
       }
     }
     if (task.dueDate) {
       axios
-        .post("https://mono.specvista.com/platform-eng/api/v1/scheduler/action", {
-          schedulerUUId: "aef911da-e944-4844-9861-4fadb0cfff5f",
-          runtime: task.dueDate,
-        })
+        .post(
+          "https://mono.specvista.com/platform-eng/api/v1/scheduler/action",
+          {
+            schedulerUUId: "aef911da-e944-4844-9861-4fadb0cfff5f",
+            runtime: task.dueDate,
+          },
+        )
         .catch((error) => {
           console.error("Failed to send scheduler request:", error);
         });
@@ -155,10 +176,9 @@ export class TaskService {
     authUUID: string,
   ): Promise<TaskEntity> {
     try {
-      const resolvedUUID =
-        authUUID?.startsWith("Bearer ")
-          ? authUUID.replace(/^Bearer\s+/i, "").trim()
-          : authUUID;
+      const resolvedUUID = authUUID?.startsWith("Bearer ")
+        ? authUUID.replace(/^Bearer\s+/i, "").trim()
+        : authUUID;
       const numericId = Number(taskId);
       const idCondition = Number.isFinite(numericId) ? numericId : taskId;
 
@@ -257,64 +277,75 @@ export class TaskService {
       const delegateLinks = await this.delegateRepository.find({
         where: { delegateUUID: userUUID },
       });
-      const ownerUUIDs = delegateLinks.map(link => link.ownerUUID);
+      const ownerUUIDs = delegateLinks.map((link) => link.ownerUUID);
 
       const query = this.taskRepository
         .createQueryBuilder("task")
         .where("task.userUUID = :userUUID", { userUUID });
 
       if (ownerUUIDs.length) {
-        query.orWhere("task.userUUID IN (:...ownerUUIDs) AND task.isPrivate = 0", {
-          ownerUUIDs,
-        });
+        query.orWhere(
+          "task.userUUID IN (:...ownerUUIDs) AND task.isPrivate = 0",
+          {
+            ownerUUIDs,
+          },
+        );
       }
 
       const tasks = await query.orderBy("task.createdAt", "DESC").getMany();
-      const taskOwnerUUIDs = Array.from(new Set(tasks.map(task => task.userUUID)));
+      const taskOwnerUUIDs = Array.from(
+        new Set(tasks.map((task) => task.userUUID)),
+      );
       const owners = taskOwnerUUIDs.length
-        ? await this.userRepository.find({ where: { uuid: In(taskOwnerUUIDs) } })
+        ? await this.userRepository.find({
+            where: { uuid: In(taskOwnerUUIDs) },
+          })
         : [];
       const ownerMap = new Map(
-        owners.map(owner => [
+        owners.map((owner) => [
           owner.uuid,
           {
-            ownerName: `${owner.firstName ?? ""} ${owner.lastName ?? ""}`.trim(),
+            ownerName: `${owner.firstName ?? ""} ${
+              owner.lastName ?? ""
+            }`.trim(),
             ownerEmail: owner.email,
           },
         ]),
       );
 
-      const completedTasks = tasks.filter(task => task.isCompleted).length;
+      const completedTasks = tasks.filter((task) => task.isCompleted).length;
       const progress = tasks.length > 0 ? completedTasks / tasks.length : 0;
 
-      return [{
-        id: "default",
-        name: "My Tasks",
-        progress: parseFloat(progress.toFixed(2)),
-        tasks: tasks.map((task) => ({
-          id: task.id.toString(),
-          time: task.dueDate
-            ? new Date(task.dueDate).toLocaleString([], {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "",
-          title: task.title,
-          description: task?.description || "",
-          isCompleted: task?.isCompleted,
-          priority: task?.priority,
-          category: task?.category,
-          isPrivate: task?.isPrivate ?? false,
-          color: this.getColorForPriority(task.priority),
-          participants: 1,
-          userUUID: task.userUUID,
-          ownerName: ownerMap.get(task.userUUID)?.ownerName || null,
-          ownerEmail: ownerMap.get(task.userUUID)?.ownerEmail || null,
-        })),
-      }];
+      return [
+        {
+          id: "default",
+          name: "My Tasks",
+          progress: parseFloat(progress.toFixed(2)),
+          tasks: tasks.map((task) => ({
+            id: task.id.toString(),
+            time: task.dueDate
+              ? new Date(task.dueDate).toLocaleString([], {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })
+              : "",
+            title: task.title,
+            description: task?.description || "",
+            isCompleted: task?.isCompleted,
+            priority: task?.priority,
+            category: task?.category,
+            isPrivate: task?.isPrivate ?? false,
+            color: this.getColorForPriority(task.priority),
+            participants: 1,
+            userUUID: task.userUUID,
+            ownerName: ownerMap.get(task.userUUID)?.ownerName || null,
+            ownerEmail: ownerMap.get(task.userUUID)?.ownerEmail || null,
+          })),
+        },
+      ];
     } catch (error) {
       console.error("Error fetching task manager list:", error);
       throw new HttpException(
@@ -385,7 +416,7 @@ export class TaskService {
           userUUID,
           isCompleted: true,
         },
-        order: { updatedAt: 'DESC' },
+        order: { updatedAt: "DESC" },
       });
 
       if (completedTasks.length === 0) {
@@ -393,8 +424,8 @@ export class TaskService {
       }
 
       const tasksByDate = new Map<string, any[]>();
-      
-      completedTasks.forEach(task => {
+
+      completedTasks.forEach((task) => {
         if (task.updatedAt) {
           const dateKey = new Date(task.updatedAt).toDateString();
           if (!tasksByDate.has(dateKey)) {
@@ -406,8 +437,8 @@ export class TaskService {
 
       let streak = 0;
       const today = new Date();
-      const dates = Array.from(tasksByDate.keys()).sort((a, b) => 
-        new Date(b).getTime() - new Date(a).getTime()
+      const dates = Array.from(tasksByDate.keys()).sort(
+        (a, b) => new Date(b).getTime() - new Date(a).getTime(),
       );
 
       const todayKey = today.toDateString();
@@ -420,7 +451,7 @@ export class TaskService {
 
       while (true) {
         const dateKey = currentDate.toDateString();
-        
+
         if (tasksByDate.has(dateKey)) {
           streak++;
           currentDate.setDate(currentDate.getDate() - 1);
@@ -431,11 +462,10 @@ export class TaskService {
 
       return streak;
     } catch (error) {
-      console.error('Error calculating streak:', error);
+      console.error("Error calculating streak:", error);
       return 0;
     }
   }
-
 
   async getSmartInsights(authUUID: string): Promise<SmartInsightsResponse> {
     const userUUID = this.normalizeAuthUUID(authUUID);
@@ -704,27 +734,25 @@ export class TaskService {
       where: { userUUID, isCompleted: 0 },
     });
 
-    return (
-      tasks
-        .map((task) => {
-          if (!task.dueDate) {
-            return { ...task, deadlineScore: 0 };
-          }
+    return tasks
+      .map((task) => {
+        if (!task.dueDate) {
+          return { ...task, deadlineScore: 0 };
+        }
 
-          const now = new Date();
-          const dueDate = new Date(task.dueDate);
-          const timeDiff = dueDate.getTime() - now.getTime();
-          const daysUntilDue = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        const now = new Date();
+        const dueDate = new Date(task.dueDate);
+        const timeDiff = dueDate.getTime() - now.getTime();
+        const daysUntilDue = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-          const score = Math.max(
-            0,
-            Math.min(100, 100 - (daysUntilDue / 14) * 100),
-          );
-          return { ...task, deadlineScore: Math.round(score) };
-        })
-        .sort((a, b) => b.deadlineScore - a.deadlineScore)
-        .slice(0, 5)
-    );
+        const score = Math.max(
+          0,
+          Math.min(100, 100 - (daysUntilDue / 14) * 100),
+        );
+        return { ...task, deadlineScore: Math.round(score) };
+      })
+      .sort((a, b) => b.deadlineScore - a.deadlineScore)
+      .slice(0, 5);
   }
 
   async upNext(): Promise<any> {
@@ -1118,7 +1146,7 @@ export class TaskService {
       await this.taskRepository.delete({ userUUID });
       await this.taskShareRepository.delete({ ownerUUID: userUUID });
     } catch (error) {
-      console.error('Error deleting user tasks:', error);
+      console.error("Error deleting user tasks:", error);
       throw error;
     }
   }
@@ -1156,10 +1184,10 @@ export class TaskService {
     const delegates = await this.delegateRepository.find({
       where: { ownerUUID },
     });
-    const allowed = new Set(delegates.map(delegate => delegate.delegateUUID));
+    const allowed = new Set(delegates.map((delegate) => delegate.delegateUUID));
 
     const normalized = shares
-      .filter(share => allowed.has(share.delegateUUID))
+      .filter((share) => allowed.has(share.delegateUUID))
       .reduce<Map<string, { delegateUUID: string; canEdit: boolean }>>(
         (acc, share) => {
           acc.set(share.delegateUUID, {
@@ -1174,7 +1202,7 @@ export class TaskService {
     await this.taskShareRepository.delete({ taskId, ownerUUID });
 
     if (normalized.size > 0) {
-      const newShares = Array.from(normalized.values()).map(share =>
+      const newShares = Array.from(normalized.values()).map((share) =>
         this.taskShareRepository.create({
           taskId,
           ownerUUID,
@@ -1197,14 +1225,20 @@ export class TaskService {
     }
     const canView = await this.canViewTask(task, userUUID);
     if (!canView) {
-      throw new HttpException("Task not found or unauthorized", HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        "Task not found or unauthorized",
+        HttpStatus.NOT_FOUND,
+      );
     }
     const isOwner = task.userUUID === userUUID;
     const canEdit = await this.canEditTask(task, userUUID);
     return { isOwner, canEdit, canView };
   }
 
-  private async canViewTask(task: TaskEntity, userUUID: string): Promise<boolean> {
+  private async canViewTask(
+    task: TaskEntity,
+    userUUID: string,
+  ): Promise<boolean> {
     if (task.userUUID === userUUID) {
       return true;
     }
@@ -1217,7 +1251,10 @@ export class TaskService {
     return Boolean(delegate);
   }
 
-  private async canEditTask(task: TaskEntity, userUUID: string): Promise<boolean> {
+  private async canEditTask(
+    task: TaskEntity,
+    userUUID: string,
+  ): Promise<boolean> {
     if (task.userUUID === userUUID) {
       return true;
     }
@@ -1229,5 +1266,4 @@ export class TaskService {
     });
     return Boolean(delegate);
   }
-
 }

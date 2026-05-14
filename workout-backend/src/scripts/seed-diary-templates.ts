@@ -1,8 +1,8 @@
-import { createConnection } from 'typeorm';
-import ormconfig from '../ormconfig';
-import { DiaryEntryEntity } from '../entities/diary-entry.entity';
+import { createConnection } from "typeorm";
+import ormconfig from "../ormconfig";
+import { DiaryEntryEntity } from "../entities/diary-entry.entity";
 
-const SYSTEM_TEMPLATE_UUID = '00000000-0000-0000-0000-000000000000';
+const SYSTEM_TEMPLATE_UUID = "00000000-0000-0000-0000-000000000000";
 
 type DiaryTemplate = {
   title: string;
@@ -13,7 +13,7 @@ type DiaryTemplate = {
 
 const diaryTemplates: DiaryTemplate[] = [
   {
-    title: 'Morning Reflection',
+    title: "Morning Reflection",
     content: `Good morning! Today is a fresh start.
 
 ## How am I feeling this morning?
@@ -32,11 +32,11 @@ const diaryTemplates: DiaryTemplate[] = [
 ## Energy level: [Low / Medium / High]
 
 Let's make today count!`,
-    mood: 'reflective',
-    tags: ['morning', 'reflection'],
+    mood: "reflective",
+    tags: ["morning", "reflection"],
   },
   {
-    title: 'Evening Reflection',
+    title: "Evening Reflection",
     content: `Ending the day with reflection.
 
 ## What went well today?
@@ -57,11 +57,11 @@ Let's make today count!`,
 - 
 
 Rest well!`,
-    mood: 'reflective',
-    tags: ['evening', 'reflection'],
+    mood: "reflective",
+    tags: ["evening", "reflection"],
   },
   {
-    title: 'Gratitude Journal',
+    title: "Gratitude Journal",
     content: `# Gratitude Entry - [Date]
 
 ## Three things I'm grateful for today:
@@ -76,11 +76,11 @@ Rest well!`,
 - 
 
 Gratitude transforms what we have into enough.`,
-    mood: 'grateful',
-    tags: ['gratitude', 'positive'],
+    mood: "grateful",
+    tags: ["gratitude", "positive"],
   },
   {
-    title: 'Weekly Review',
+    title: "Weekly Review",
     content: `# Weekly Review - Week of [Date]
 
 ## Highlights of the week:
@@ -109,11 +109,11 @@ Gratitude transforms what we have into enough.`,
 - 
 
 Here's to growth and progress!`,
-    mood: 'reflective',
-    tags: ['weekly', 'review'],
+    mood: "reflective",
+    tags: ["weekly", "review"],
   },
   {
-    title: 'Goal Setting',
+    title: "Goal Setting",
     content: `# Goal Setting - [Date]
 
 ## What do I want to achieve?
@@ -143,11 +143,11 @@ Here's to growth and progress!`,
 - 
 
 Let's make it happen!`,
-    mood: 'motivated',
-    tags: ['goals', 'planning'],
+    mood: "motivated",
+    tags: ["goals", "planning"],
   },
   {
-    title: 'Emotional Check-in',
+    title: "Emotional Check-in",
     content: `# Emotional Check-in - [Date]
 
 ## Current emotional state:
@@ -173,18 +173,18 @@ Let's make it happen!`,
 - 
 
 Taking care of myself is important.`,
-    mood: 'reflective',
-    tags: ['emotions', 'self-care'],
+    mood: "reflective",
+    tags: ["emotions", "self-care"],
   },
 ];
 
 async function seedDiaryTemplates() {
-  console.log('🌱 Starting diary template seeding...');
+  console.log("🌱 Starting diary template seeding...");
 
   try {
     const connection = await createConnection({
       ...ormconfig,
-      name: 'seed-diary-templates',
+      name: "seed-diary-templates",
     });
 
     const diaryRepository = connection.getRepository(DiaryEntryEntity);
@@ -194,7 +194,9 @@ async function seedDiaryTemplates() {
     });
 
     if (existingTemplates.length > 0) {
-      console.log(`⚠️  Found ${existingTemplates.length} existing templates. Clearing...`);
+      console.log(
+        `⚠️  Found ${existingTemplates.length} existing templates. Clearing...`,
+      );
       await diaryRepository.delete({ userUUID: SYSTEM_TEMPLATE_UUID });
     }
 
@@ -205,7 +207,7 @@ async function seedDiaryTemplates() {
       const entry = diaryRepository.create({
         title: template.title,
         content: template.content,
-        mood: template.mood || 'reflective',
+        mood: template.mood || "reflective",
         tags: template.tags || [],
         favorite: false,
         userUUID: SYSTEM_TEMPLATE_UUID,
@@ -220,7 +222,7 @@ async function seedDiaryTemplates() {
     await connection.close();
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding diary templates:', error);
+    console.error("❌ Error seeding diary templates:", error);
     process.exit(1);
   }
 }

@@ -103,7 +103,9 @@ export class AuthController {
     @Body() deleteAccountDto: { password: string },
     @Req() request: ExpressRequest,
   ) {
-    return this.authService.deleteAccount(request.user.uuid, deleteAccountDto.password);
+    return this.authService.deleteAccount(
+      request.user.uuid,
+      deleteAccountDto.password,
+    );
   }
-
 }

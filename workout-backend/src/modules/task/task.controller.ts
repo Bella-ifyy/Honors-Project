@@ -52,7 +52,6 @@ export class TaskController {
     return await this.taskService.updateTask(taskId, updateTaskDto, userUUID);
   }
 
-
   @Get("dashboard/metrics")
   async dashboardMetrics(
     @Headers("authorization") authHeader: string,
@@ -147,11 +146,15 @@ export class TaskController {
   async updateShares(
     @Req() req: ExpressRequest,
     @Param("id") taskId: string,
-    @Body() payload: { shares?: Array<{ delegateUUID: string; canEdit?: boolean }> },
+    @Body()
+    payload: { shares?: Array<{ delegateUUID: string; canEdit?: boolean }> },
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = req.user?.uuid || authHeader;
-    return await this.taskService.updateTaskShares(Number(taskId), userUUID, payload?.shares ?? []);
+    return await this.taskService.updateTaskShares(
+      Number(taskId),
+      userUUID,
+      payload?.shares ?? [],
+    );
   }
-
 }

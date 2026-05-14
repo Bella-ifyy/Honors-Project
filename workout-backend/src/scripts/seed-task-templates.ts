@@ -1,8 +1,8 @@
-import { createConnection } from 'typeorm';
-import ormconfig from '../ormconfig';
-import { TaskEntity } from '../entities/task.entity';
+import { createConnection } from "typeorm";
+import ormconfig from "../ormconfig";
+import { TaskEntity } from "../entities/task.entity";
 
-const SYSTEM_TEMPLATE_UUID = '00000000-0000-0000-0000-000000000000';
+const SYSTEM_TEMPLATE_UUID = "00000000-0000-0000-0000-000000000000";
 
 type TaskTemplate = {
   title: string;
@@ -15,90 +15,90 @@ type TaskTemplate = {
 
 const taskTemplates: TaskTemplate[] = [
   {
-    title: 'Review weekly goals',
-    description: 'Take time to review and adjust your weekly objectives',
-    priority: 'High',
-    category: 'Personal',
+    title: "Review weekly goals",
+    description: "Take time to review and adjust your weekly objectives",
+    priority: "High",
+    category: "Personal",
     isRecurring: true,
-    recurringPattern: 'weekly',
+    recurringPattern: "weekly",
   },
   {
-    title: 'Morning meditation',
-    description: 'Start your day with 10 minutes of mindfulness',
-    priority: 'Medium',
-    category: 'Health',
+    title: "Morning meditation",
+    description: "Start your day with 10 minutes of mindfulness",
+    priority: "Medium",
+    category: "Health",
     isRecurring: true,
-    recurringPattern: 'daily',
+    recurringPattern: "daily",
   },
   {
-    title: 'Exercise session',
-    description: 'Dedicate time for physical activity',
-    priority: 'High',
-    category: 'Health',
+    title: "Exercise session",
+    description: "Dedicate time for physical activity",
+    priority: "High",
+    category: "Health",
     isRecurring: true,
-    recurringPattern: 'daily',
+    recurringPattern: "daily",
   },
   {
-    title: 'Read for 30 minutes',
-    description: 'Expand your knowledge through reading',
-    priority: 'Medium',
-    category: 'Learning',
+    title: "Read for 30 minutes",
+    description: "Expand your knowledge through reading",
+    priority: "Medium",
+    category: "Learning",
     isRecurring: true,
-    recurringPattern: 'daily',
+    recurringPattern: "daily",
   },
   {
-    title: 'Plan tomorrow',
-    description: 'Review and plan tasks for the next day',
-    priority: 'Medium',
-    category: 'Personal',
+    title: "Plan tomorrow",
+    description: "Review and plan tasks for the next day",
+    priority: "Medium",
+    category: "Personal",
     isRecurring: true,
-    recurringPattern: 'daily',
+    recurringPattern: "daily",
   },
   {
-    title: 'Weekly team meeting',
-    description: 'Sync with your team on progress and blockers',
-    priority: 'High',
-    category: 'Work',
+    title: "Weekly team meeting",
+    description: "Sync with your team on progress and blockers",
+    priority: "High",
+    category: "Work",
     isRecurring: true,
-    recurringPattern: 'weekly',
+    recurringPattern: "weekly",
   },
   {
-    title: 'Review monthly budget',
-    description: 'Track expenses and plan for the month ahead',
-    priority: 'High',
-    category: 'Personal',
+    title: "Review monthly budget",
+    description: "Track expenses and plan for the month ahead",
+    priority: "High",
+    category: "Personal",
     isRecurring: true,
-    recurringPattern: 'monthly',
+    recurringPattern: "monthly",
   },
   {
-    title: 'Call family',
-    description: 'Stay connected with loved ones',
-    priority: 'Medium',
-    category: 'Personal',
+    title: "Call family",
+    description: "Stay connected with loved ones",
+    priority: "Medium",
+    category: "Personal",
     isRecurring: true,
-    recurringPattern: 'weekly',
+    recurringPattern: "weekly",
   },
   {
-    title: 'Learn something new',
-    description: 'Dedicate time to learning a new skill or topic',
-    priority: 'Medium',
-    category: 'Learning',
+    title: "Learn something new",
+    description: "Dedicate time to learning a new skill or topic",
+    priority: "Medium",
+    category: "Learning",
   },
   {
-    title: 'Deep work session',
-    description: 'Focus on important work without distractions',
-    priority: 'High',
-    category: 'Work',
+    title: "Deep work session",
+    description: "Focus on important work without distractions",
+    priority: "High",
+    category: "Work",
   },
 ];
 
 async function seedTaskTemplates() {
-  console.log('🌱 Starting task template seeding...');
+  console.log("🌱 Starting task template seeding...");
 
   try {
     const connection = await createConnection({
       ...ormconfig,
-      name: 'seed-task-templates',
+      name: "seed-task-templates",
     });
 
     const taskRepository = connection.getRepository(TaskEntity);
@@ -108,7 +108,9 @@ async function seedTaskTemplates() {
     });
 
     if (existingTemplates.length > 0) {
-      console.log(`⚠️  Found ${existingTemplates.length} existing templates. Clearing...`);
+      console.log(
+        `⚠️  Found ${existingTemplates.length} existing templates. Clearing...`,
+      );
       await taskRepository.delete({ userUUID: SYSTEM_TEMPLATE_UUID });
     }
 
@@ -119,7 +121,7 @@ async function seedTaskTemplates() {
       const task = taskRepository.create({
         title: template.title,
         description: template.description || null,
-        priority: template.priority || 'Medium',
+        priority: template.priority || "Medium",
         category: template.category || null,
         isCompleted: false,
         reminderSent: false,
@@ -139,7 +141,7 @@ async function seedTaskTemplates() {
     await connection.close();
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding task templates:', error);
+    console.error("❌ Error seeding task templates:", error);
     process.exit(1);
   }
 }

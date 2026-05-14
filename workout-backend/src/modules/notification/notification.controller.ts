@@ -22,7 +22,10 @@ export class NotificationController {
 
   @Get("preferences")
   @UseGuards(AuthGuard)
-  async getPreferences(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async getPreferences(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = req.user?.uuid || authHeader;
     return await this.notificationPreferenceService.getOrCreatePreferences(
       userUUID,
@@ -45,7 +48,10 @@ export class NotificationController {
 
   @Get("inbox")
   @UseGuards(AuthGuard)
-  async getInbox(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async getInbox(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = req.user?.uuid || authHeader;
     return await this.inboxService.getMessages(userUUID);
   }
@@ -63,7 +69,10 @@ export class NotificationController {
 
   @Get("inbox/generate")
   @UseGuards(AuthGuard)
-  async generateInsights(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async generateInsights(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = req.user?.uuid || authHeader;
     await this.inboxService.generateInsights(userUUID);
     return { message: "Insights generated successfully" };

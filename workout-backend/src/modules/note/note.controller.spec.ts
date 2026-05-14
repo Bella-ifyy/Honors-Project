@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { NoteController } from "./note.controller";
 import { NoteService } from "./note.service";
-import { getRepositoryToken } from "@nestjs/typeorm";
-import { NoteEntity } from "@app/entities/note.entity";
+import { AuthGuard } from "../../guards/auth.guard";
+import { AuthService } from "../auth/auth.service";
 
 describe("NoteController", () => {
   let controller: NoteController;
@@ -11,14 +11,16 @@ describe("NoteController", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [NoteController],
       providers: [
-        NoteService,
+        { provide: NoteService, useValue: {} },
         {
-          provide: getRepositoryToken(NoteEntity),
+          provide: AuthGuard,
+          useValue: { canActivate: jest.fn().mockReturnValue(true) },
+        },
+        {
+          provide: AuthService,
           useValue: {
-            find: jest.fn(),
-            findOne: jest.fn(),
-            save: jest.fn(),
-            delete: jest.fn(),
+            findByID: jest.fn(),
+            findByUUID: jest.fn(),
           },
         },
       ],

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { DelegateEntity } from "../../entities/delegate.entity";
@@ -20,13 +24,17 @@ export class DelegateService {
   ) {}
 
   async listDelegates(ownerUUID: string) {
-    const delegates = await this.delegateRepository.find({ where: { ownerUUID } });
+    const delegates = await this.delegateRepository.find({
+      where: { ownerUUID },
+    });
     if (!delegates.length) {
       return [];
     }
-    const delegateUUIDs = delegates.map(delegate => delegate.delegateUUID);
-    const users = await this.userRepository.find({ where: { uuid: In(delegateUUIDs) } });
-    return users.map(user => ({
+    const delegateUUIDs = delegates.map((delegate) => delegate.delegateUUID);
+    const users = await this.userRepository.find({
+      where: { uuid: In(delegateUUIDs) },
+    });
+    return users.map((user) => ({
       uuid: user.uuid,
       email: user.email,
       firstName: user.firstName,
@@ -38,7 +46,9 @@ export class DelegateService {
     if (!email?.trim()) {
       throw new BadRequestException("Email is required");
     }
-    const delegateUser = await this.userRepository.findOne({ where: { email } });
+    const delegateUser = await this.userRepository.findOne({
+      where: { email },
+    });
     if (!delegateUser) {
       throw new NotFoundException("No account found for that email");
     }
@@ -72,7 +82,10 @@ export class DelegateService {
     return { message: "Delegate removed" };
   }
 
-  async isDelegateForOwner(ownerUUID: string, delegateUUID: string): Promise<boolean> {
+  async isDelegateForOwner(
+    ownerUUID: string,
+    delegateUUID: string,
+  ): Promise<boolean> {
     const match = await this.delegateRepository.findOne({
       where: { ownerUUID, delegateUUID },
     });

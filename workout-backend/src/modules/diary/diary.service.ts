@@ -1,12 +1,14 @@
-import {
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { DiaryEntryEntity } from "../../entities/diary-entry.entity";
 
-type DiaryMood = "reflective" | "grateful" | "energized" | "calm" | "melancholy";
+type DiaryMood =
+  | "reflective"
+  | "grateful"
+  | "energized"
+  | "calm"
+  | "melancholy";
 
 const ALLOWED_MOODS: DiaryMood[] = [
   "reflective",
@@ -48,7 +50,8 @@ export class DiaryService {
       tags: Array.isArray(payload.tags)
         ? payload.tags.filter((tag) => Boolean(tag?.trim()))
         : undefined,
-      favorite: typeof payload.favorite === "boolean" ? payload.favorite : undefined,
+      favorite:
+        typeof payload.favorite === "boolean" ? payload.favorite : undefined,
     };
   }
 
@@ -59,7 +62,10 @@ export class DiaryService {
     });
   }
 
-  async searchEntries(userUUID: string, query?: string): Promise<DiaryEntryEntity[]> {
+  async searchEntries(
+    userUUID: string,
+    query?: string,
+  ): Promise<DiaryEntryEntity[]> {
     if (!query?.trim()) {
       return this.listEntries(userUUID);
     }
@@ -118,13 +124,19 @@ export class DiaryService {
     return this.diaryRepository.save(entry);
   }
 
-  async deleteEntry(id: number, userUUID: string): Promise<{ message: string }> {
+  async deleteEntry(
+    id: number,
+    userUUID: string,
+  ): Promise<{ message: string }> {
     const entry = await this.getEntryById(id, userUUID);
     await this.diaryRepository.delete(entry.id);
     return { message: "Diary entry deleted" };
   }
 
-  async toggleFavorite(id: number, userUUID: string): Promise<DiaryEntryEntity> {
+  async toggleFavorite(
+    id: number,
+    userUUID: string,
+  ): Promise<DiaryEntryEntity> {
     const entry = await this.getEntryById(id, userUUID);
     entry.favorite = !entry.favorite;
     entry.updatedAt = new Date();

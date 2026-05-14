@@ -26,7 +26,9 @@ export class LockPreferenceService {
   ) {}
 
   async getOrCreate(userUUID: string): Promise<LockPreferenceEntity> {
-    let record = await this.lockPreferenceRepository.findOne({ where: { userUUID } });
+    let record = await this.lockPreferenceRepository.findOne({
+      where: { userUUID },
+    });
     if (!record) {
       record = this.lockPreferenceRepository.create({ userUUID });
       record = await this.lockPreferenceRepository.save(record);
@@ -49,7 +51,9 @@ export class LockPreferenceService {
     currentPassword?: string,
   ): Promise<{ hasPassword: boolean }> {
     if (!newPassword || newPassword.length < 4) {
-      throw new BadRequestException("Password must be at least 4 characters long");
+      throw new BadRequestException(
+        "Password must be at least 4 characters long",
+      );
     }
 
     const preference = await this.getOrCreate(userUUID);

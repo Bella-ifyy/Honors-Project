@@ -25,7 +25,10 @@ export class DiaryController {
   constructor(private readonly diaryService: DiaryService) {}
 
   @Get()
-  async listEntries(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async listEntries(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = getUserUUID(req, authHeader);
     return this.diaryService.listEntries(userUUID);
   }

@@ -35,7 +35,10 @@ export class NoteController {
 
   @Get("/")
   @UseGuards(AuthGuard)
-  async listNotes(@Req() req: ExpressRequest, @Headers("authorization") authHeader: string) {
+  async listNotes(
+    @Req() req: ExpressRequest,
+    @Headers("authorization") authHeader: string,
+  ) {
     const userUUID = req.user?.uuid || authHeader;
     return await this.noteService.listNotesByUser(userUUID);
   }
@@ -142,10 +145,15 @@ export class NoteController {
   async updateShares(
     @Req() req: ExpressRequest,
     @Param("id") id: number,
-    @Body() payload: { shares?: Array<{ delegateUUID: string; canEdit?: boolean }> },
+    @Body()
+    payload: { shares?: Array<{ delegateUUID: string; canEdit?: boolean }> },
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = req.user?.uuid || authHeader;
-    return await this.noteService.updateNoteShares(id, userUUID, payload?.shares ?? []);
+    return await this.noteService.updateNoteShares(
+      id,
+      userUUID,
+      payload?.shares ?? [],
+    );
   }
 }

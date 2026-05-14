@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Headers, Param, Post, Req, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from "@nestjs/common";
 import { AuthGuard } from "../../guards/auth.guard";
 import { ExpressRequest } from "../../types/expressRequest.interface";
 import { DelegateService } from "./delegate.service";
@@ -25,7 +35,10 @@ export class DelegateController {
     @Headers("authorization") authHeader: string,
   ) {
     const userUUID = req.user?.uuid || authHeader;
-    return await this.delegateService.addDelegate(userUUID, payload?.email ?? "");
+    return await this.delegateService.addDelegate(
+      userUUID,
+      payload?.email ?? "",
+    );
   }
 
   @Delete(":delegateUUID")

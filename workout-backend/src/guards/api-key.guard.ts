@@ -39,10 +39,10 @@ export class ApiKeyGuard implements CanActivate {
     }
 
     const requiredScopes =
-      this.reflector.getAllAndOverride<string[]>(
-        API_KEY_SCOPES,
-        [context.getHandler(), context.getClass()],
-      ) ?? [];
+      this.reflector.getAllAndOverride<string[]>(API_KEY_SCOPES, [
+        context.getHandler(),
+        context.getClass(),
+      ]) ?? [];
 
     if (
       requiredScopes.length &&

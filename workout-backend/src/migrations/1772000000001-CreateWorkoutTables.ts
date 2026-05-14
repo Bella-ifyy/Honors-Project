@@ -78,7 +78,7 @@ export class CreateWorkoutTables1772000000001 implements MigrationInterface {
     `);
     if (Array.isArray(reminderIndex) && reminderIndex[0]?.count === 0) {
       await queryRunner.query(
-        "CREATE UNIQUE INDEX `IDX_WORKOUT_REMINDER_USER_17654` ON `workout_reminders` (`userUUID`)"
+        "CREATE UNIQUE INDEX `IDX_WORKOUT_REMINDER_USER_17654` ON `workout_reminders` (`userUUID`)",
       );
     }
 
