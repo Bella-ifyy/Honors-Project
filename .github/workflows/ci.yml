@@ -1,5 +1,5 @@
 # CI: backend build + tests; mobile install + jest (pass-with-no-tests).
-# Lint is intentionally omitted until ESLint debt is cleared — every job here must pass.
+# Lint is intentionally omitted until ESLint debt is cleared  -  every job here must pass.
 
 name: CI
 
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   backend:
-    name: Backend — build & test
+    name: Backend  -  build & test
     runs-on: ubuntu-latest
     env:
       CI: true
@@ -57,7 +57,7 @@ jobs:
         run: yarn test:e2e
 
   mobile:
-    name: Mobile — test
+    name: Mobile  -  test
     runs-on: ubuntu-latest
     env:
       CI: true

@@ -560,7 +560,7 @@ export class TaskService {
         trend,
         tip:
           completionRate >= 60
-            ? "Protect those productive blocks—they're fueling your progress."
+            ? "Protect those productive blocks - they're fueling your progress."
             : "Block 20 focused minutes each morning to clear two quick wins.",
       });
     }
@@ -591,7 +591,7 @@ export class TaskService {
         tip:
           share >= 70
             ? "Review other categories to be sure nothing important is slipping."
-            : "Lean into this momentum—queue one next step in this area today.",
+            : "Lean into this momentum - queue one next step in this area today.",
       });
     }
 
@@ -654,7 +654,7 @@ export class TaskService {
       fallbackMessage:
         insights.length > 0
           ? undefined
-          : "We're crunching the numbers—check back after a few more completed tasks.",
+          : "We're crunching the numbers - check back after a few more completed tasks.",
     };
   }
 
@@ -831,7 +831,7 @@ export class TaskService {
           notesCount > 0
             ? ` You also have ${notesCount} note${
                 notesCount === 1 ? "" : "s"
-              } saved—take a moment to review them.`
+              } saved - take a moment to review them.`
             : " Set aside a moment to capture your plans and notes.";
 
         let sentPush = false;
@@ -963,7 +963,7 @@ export class TaskService {
             ? `You still have ${pendingCount} task${
                 pendingCount === 1 ? "" : "s"
               } due today. Take a moment to wrap up or reschedule.`
-            : "You’ve completed everything due today—great job!";
+            : "You’ve completed everything due today - great job!";
 
         const overdueMessage =
           overdueCount > 0

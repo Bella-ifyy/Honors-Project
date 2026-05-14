@@ -1,7 +1,7 @@
 # compiled output
 /node_modules
 
-# npm lockfile — this project uses Yarn (yarn.lock)
+# npm lockfile  -  this project uses Yarn (yarn.lock)
 package-lock.json
 # Logs
 logs

@@ -393,31 +393,31 @@ const WorkoutProfileOnboarding = ({ navigation }: StackProps<'WorkoutOnboardingS
           <View style={styles.card}>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Goal</TyText>
-              <TyText style={styles.summaryValue}>{form.primaryGoal || '—'}</TyText>
+              <TyText style={styles.summaryValue}>{form.primaryGoal || '-'}</TyText>
             </View>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Weekly workouts</TyText>
-              <TyText style={styles.summaryValue}>{form.weeklyWorkouts || '—'}</TyText>
+              <TyText style={styles.summaryValue}>{form.weeklyWorkouts || '-'}</TyText>
             </View>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Session length</TyText>
-              <TyText style={styles.summaryValue}>{form.sessionDurationMinutes || '—'} min</TyText>
+              <TyText style={styles.summaryValue}>{form.sessionDurationMinutes || '-'} min</TyText>
             </View>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Workout types</TyText>
               <TyText style={styles.summaryValue}>
-                {form.workoutTypes.length ? form.workoutTypes.join(', ') : '—'}
+                {form.workoutTypes.length ? form.workoutTypes.join(', ') : '-'}
               </TyText>
             </View>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Equipment</TyText>
               <TyText style={styles.summaryValue}>
-                {form.equipmentAccess.length ? form.equipmentAccess.join(', ') : '—'}
+                {form.equipmentAccess.length ? form.equipmentAccess.join(', ') : '-'}
               </TyText>
             </View>
             <View style={styles.summaryRow}>
               <TyText style={styles.summaryLabel}>Sleep hours</TyText>
-              <TyText style={styles.summaryValue}>{form.sleepHours || '—'}</TyText>
+              <TyText style={styles.summaryValue}>{form.sleepHours || '-'}</TyText>
             </View>
           </View>
         </>

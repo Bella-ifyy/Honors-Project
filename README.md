@@ -17,15 +17,15 @@ Backend routes are served under the global prefix:
 
 ## Prerequisites
 
-- **Node.js** 20.x for local dev and CI (Firebase transitive deps require **≥20**; `dev.Dockerfile` may still reference 18 — align Docker when you rebuild images)
-- **Yarn** classic (1.x) — both packages use `yarn.lock`
-- **MySQL** — required to run the API against a real database (tests in CI use mocked modules and do not need MySQL)
+- **Node.js** 20.x for local dev and CI (Firebase transitive deps require **≥20**; `dev.Dockerfile` may still reference 18  -  align Docker when you rebuild images)
+- **Yarn** classic (1.x)  -  both packages use `yarn.lock`
+- **MySQL**  -  required to run the API against a real database (tests in CI use mocked modules and do not need MySQL)
 
 Optional for mobile development:
 
-- **Watchman** (macOS) — recommended by React Native / Expo for file watching
+- **Watchman** (macOS)  -  recommended by React Native / Expo for file watching
 - **Xcode** (iOS), **Android Studio** (Android)
-- **EAS CLI** — for cloud builds (`npm i -g eas-cli`)
+- **EAS CLI**  -  for cloud builds (`npm i -g eas-cli`)
 
 ## Quick start
 
@@ -55,7 +55,7 @@ yarn start:prod
 cd workout-mobile
 yarn install
 
-# Configure API base URL via Expo extra (e.g. app.config.js / app.config.ts / env — match your setup)
+# Configure API base URL via Expo extra (e.g. app.config.js / app.config.ts / env  -  match your setup)
 yarn start             # expo start --dev-client
 ```
 
@@ -79,7 +79,7 @@ The API loads `.env` via `dotenv`. Database configuration is defined in `workout
 | `DB_PASSWORD`  | Database password |
 | `DB_NAME`      | Database name  |
 
-Additional variables may be required for auth providers, email, Firebase, etc., depending on which features you enable — inspect `process.env` usage in `workout-backend/src` when wiring a new environment.
+Additional variables may be required for auth providers, email, Firebase, etc., depending on which features you enable  -  inspect `process.env` usage in `workout-backend/src` when wiring a new environment.
 
 ## Scripts reference
 
@@ -110,12 +110,12 @@ Additional variables may be required for auth providers, email, Firebase, etc., 
 
 ### Backend
 
-- **Unit tests**: `cd workout-backend && yarn test` — colocated `*.spec.ts` files.
-- **E2E-style tests**: `yarn test:e2e` — Jest config in `workout-backend/test/jest-e2e.json`. Current suites compile focused Nest testing modules (including mocks) and exercise routes with `supertest`; they **do not** require a running MySQL instance.
+- **Unit tests**: `cd workout-backend && yarn test`  -  colocated `*.spec.ts` files.
+- **E2E-style tests**: `yarn test:e2e`  -  Jest config in `workout-backend/test/jest-e2e.json`. Current suites compile focused Nest testing modules (including mocks) and exercise routes with `supertest`; they **do not** require a running MySQL instance.
 
 ### Mobile
 
-- **Unit/UI tests**: `cd workout-mobile && yarn test` — uses `jest-expo` with iOS, Android, and web project presets (`jest.config.json`). The repo may have few or no test files yet; `--passWithNoTests` is enabled so CI stays green while tests are added.
+- **Unit/UI tests**: `cd workout-mobile && yarn test`  -  uses `jest-expo` with iOS, Android, and web project presets (`jest.config.json`). The repo may have few or no test files yet; `--passWithNoTests` is enabled so CI stays green while tests are added.
 
 ### Continuous integration
 
@@ -152,7 +152,7 @@ Authorization: Bearer <user jwt>
 }
 ```
 
-The response includes the `token` once — store it securely.
+The response includes the `token` once  -  store it securely.
 
 **Authenticated requests**
 
@@ -189,8 +189,8 @@ CI in this repo validates **build and tests**; it does **not** deploy automatica
 
 1. Create a branch from `main` (or your default branch).
 2. Run backend tests and mobile tests locally before opening a PR.
-3. Follow existing formatting conventions; backend `yarn lint` may fail until historic lint debt is cleared — prefer small, focused changes.
+3. Follow existing formatting conventions; backend `yarn lint` may fail until historic lint debt is cleared  -  prefer small, focused changes.
 
 ## License
 
-See individual packages (`private` fields and `LICENSE` if present). Backend `package.json` lists `UNLICENSED` — confirm distribution terms before reuse.
+See individual packages (`private` fields and `LICENSE` if present). Backend `package.json` lists `UNLICENSED`  -  confirm distribution terms before reuse.

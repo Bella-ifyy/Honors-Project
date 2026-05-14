@@ -367,7 +367,7 @@ export class EmailNotificationService {
               <p>${
                 pendingCount > 0
                   ? "Here’s what’s still open:"
-                  : "Relax and recharge—you’re all caught up!"
+                  : "Relax and recharge - you’re all caught up!"
               }</p>
               ${pendingList}
               <div class="footer">
